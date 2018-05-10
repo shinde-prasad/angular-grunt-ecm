@@ -1,0 +1,16 @@
+{
+    "elements": {
+        "error-message": {
+            "attributes": {
+                "data-em-messages": {},
+                "em-brief": {},
+                "data-em-groups": {}
+            }
+        }
+    },
+    "attributes": {
+        "has-permission": {
+            "context": "option"
+        }
+    }
+}

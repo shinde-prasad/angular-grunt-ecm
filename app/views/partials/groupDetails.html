@@ -1,0 +1,168 @@
+<!-- INFO SECTION -->
+<a class="btn rabo-btn rabo-btn-blue" href="#/manageGroups">Back</a>
+<h1>{{title}}</h1>
+
+<div class="row  rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+  <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+</div><!-- /.end -->
+
+<div class="rabo-mg-bottom-20">
+    <form name="editGroupsForm" class="form-horizontal rabo-text-left" autocomplete="off">                        
+        <div class="row rabo-mg-bottom-20">
+            <div class="col-md-4">
+                <p>
+                    <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Name:</label>
+                    <span ng-if="readMode">{{groupInfo["name"]}}</span>
+                    <input type="text" required name="name" class="form-control rabo-input-220" ng-model="groupInfo['name']" ng-if="editMode"/>
+                </p>
+                <p>
+                    <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Description:</label>
+                    <span ng-if="readMode">{{groupInfo["description"]}}</span>
+                    <input type="text" required name="description" class="form-control rabo-input-220" ng-model="groupInfo['description']" ng-if="editMode"/>
+                </p>
+                <p><strong>Modified by:</strong> {{groupInfo["lastModifiedBy"]}}</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Created date:</strong> {{groupInfo["timestamp"]}}</p>
+                <p><strong>Date modified:</strong> {{groupInfo["lastUpdate"]}}</p>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10"  data-toggle="modal" data-target="#deleteDetailPopup">Delete</button>
+                <button type="button" class="btn pull-right rabo-btn" ng-if="readMode" ng-click="editToggle()">Edit</button>
+                <button type="submit" class="btn pull-right rabo-btn" ng-if="editMode" ng-click="editGroupsForm.$valid && saveName()">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div ><hr></div>
+<h3>Custodians</h3>
+<!-- FILTER ACTION BAR-->
+<div class="row rabo-mg-bottom-20">
+  <ul class="nav navbar-nav navbar-right rabo-clear-mg">
+    <li>
+      <div>
+        <strong>Country / Legal Entity:</strong>&nbsp;
+        <div class="rabo-filter-results" ng-dropdown-multiselect="" options="countryList" selected-model="currentCountryValue" extra-settings="filterDropdownSettings" events="{ onSelectionChanged: getGroupUsers }"></div>
+      </div>
+    </li>
+    <li class="rabo-mg-left-20">
+      <div class="dropdown">
+        <strong>Department:</strong>&nbsp;
+        <div class="rabo-filter-results" ng-dropdown-multiselect="" options="departmentList" selected-model="currentDeparmentValue" extra-settings="filterDropdownSettings" events="{ onSelectionChanged: getGroupUsers }"></div>
+      </div>
+    </li>
+    <li class="rabo-mg-left-20">
+      <div class="dropdown">
+        <strong>Reason:</strong>&nbsp;
+        <div class="rabo-filter-results" ng-dropdown-multiselect="" options="reasonList" selected-model="currentReasonValue" extra-settings="filterReasonDropdownSettings" events="{ onSelectionChanged: getGroupUsers }"></div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- TOP ACTION BUTTONS -->
+<div class="row">
+  <div class="col-md-6">
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+    <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Remove</button>
+    <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addGroupUserPopup" ng-click="prepareGroupUserModal()">Add</button>
+  </div>
+</div><!-- /.top action buttons -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- TABLE GENERATOR - See directive tableGenerator.js for more info -->
+<div class="row">
+  <div class="row  rabo-mg-bottom-20" ng-show="noResults">
+    <div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray text-center">{{noResultsMessage}}</div>
+  </div>
+  <div data-table-generator ng-if="tableData"></div>
+</div><!-- /.table generator -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- BOTTOM ACTION BUTTONS -->
+<div class="row rabo-margin-top-5">
+  <div class="col-md-6">
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+    <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Remove</button>
+    <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addGroupUserPopup" ng-click="prepareGroupUserModal()">Add</button>
+  </div>
+</div><!-- /.bottom actions buttons -->
+
+
+<!-- MODAL -->
+<div data-delete-modal></div>
+<div data-delete-detail-modal></div>
+<div data-add-group-user-modal></div><!-- /.modal -->
+<!-- THIS MODAL HAS ERRORS WITH THE SCOPE IF IS MOVED TO A DIRECTIVE -->
+<div class="modal fade" id="participantNotesModal2" tabindex="-1"><!-- MODAL - add flag item -->
+    <div class="modal-dialog">
+        <div class="modal-content bigModal">
+            <form name="participantNotesModalForm2" class="form-horizontal rabo-text-left">        
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="hideModal('modal2')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Notes</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Note:</label>
+                        <div class="col-sm-9">
+                            <textarea required name="noteText" class="form-control rabo-input" rows="3" ng-model="noteText"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div data-participant-notes-history-table  ng-if="notesData"></div><br /><br/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="participantNotesModalForm2.$valid && addNoteToParticipant(noteText)">Add Note</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="hideModal('modal2')">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

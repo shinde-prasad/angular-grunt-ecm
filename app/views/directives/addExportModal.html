@@ -1,0 +1,30 @@
+<div class="modal fade" id="addExportPopup" tabindex="-1"><!-- MODAL - add flag item -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add new export</h4>
+            </div>
+            <div class="modal-body">
+                <p class="rabo-mg-bottom-20"><strong>Select the export type you want to create</strong></p>
+                <form name="modalForm" class="form-horizontal rabo-text-left">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Export Type:</label>
+                        <div class="col-sm-9">
+                            <select class="form-control rabo-input-220" name="exportType" ng-model="selectedType" required>
+                                <option value="">-- Select export type --</option>
+                                <option value="EXP">Generic export</option>                                
+                                <option value="SSEXP">Saved search export</option>
+                                <option has-permission='admin' value="TREXP">Traffic export</option>                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalForm.$valid ? 'modal' : ''}}" ng-click="modalForm.$valid && newExport()">OK</button>
+                        <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->

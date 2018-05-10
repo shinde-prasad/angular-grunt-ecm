@@ -1,0 +1,331 @@
+<!-- INFO SECTION -->
+<header-search data-title="titlePage"></header-search>
+
+<!-- ROW CONTENT -->
+<div class="row rabo-mg-bottom-20 rabo-clear-mg" ng-hide="loading">
+  <!-- LEFT COLUMN -->
+  <div class="col-xs-12 rabo-mg-bottom-10">
+    <!-- SEARCH TERMS-->
+    <div>
+      <span class="termTitle">You searched for:</span>
+      <span ng-repeat="(field, values) in searchRS.getSearchInfo()"><b>{{field}}:</b>
+        <span ng-repeat="value in values">{{value}}<span ng-if="!$last">, </span></span>&nbsp;
+      </span>
+    </div>
+    <!-- SOURCES-->
+    <div>
+      <span class="termTitle">Sources:</span>
+        <span class="termsList">
+            <span ng-repeat="source in searchRS.getSearchCriteria().contentSourceFilters">{{source.name}}<span ng-if="!$last">, </span></span>
+        </span>
+    </div>
+    <!-- FILTERS -->
+    <div class="col-xs-12 rabo-clear-pd">
+        <div class="col-xs-6 rabo-clear-pd">
+            <span class="termTitle">Types:</span>
+            <span class="termsList">
+                <span ng-repeat="category in searchRS.getFacets()">
+                    <strong class="filter_category">{{category.field}}</strong>
+                    <span class="filter" ng-repeat="facet in category.values">{{facet.value}} ({{facet.count}})</span>
+                </span> 
+            </span>
+        </div>
+    </div>
+  </div><!-- /.left column -->
+
+  <!--RIGHT COLUMN-->
+  <div class="col-xs-12">
+    <h3>{{saveQueryStatus}}</h3>
+
+    <!-- TOP ACTION BUTTONS -->
+    <div class="row rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+      <div class="col-md-12 rabo-mg-bottom-10 alert" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">
+        <div style="width: 100%; padding-left:0px; text-align: left;" class="inner-alert-div text-center" id="results-page-alert-message"><div class="glyphicon glyphicon-alert inner-alert-div" style="padding-top: 2px; margin-right:8px;"></div>{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+      </div>
+    </div><!-- /.end -->
+    <div class="row  rabo-mg-bottom-20" ng-hide="!internalLoading"><!-- Info when action download started -->
+      <div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray text-center">{{loadingMessage}}</div>
+    </div><!-- /.end -->
+
+    <div class="row rabo-clear-mg-left rabo-mg-bottom-20">
+      <div class="col-xs-12 rabo-clear-pd">
+        <button type="button" class="btn rabo-btn rabo-btn-blue" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>
+        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-15" ng-click="selectPage()">Select Page</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-50" data-toggle="modal" data-target="#retentionModal" ng-click="prepareChangeStatus()" ng-disabled="btnDisabled" style="margin-left: 64px;">Legal hold</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#changeStatusModal" ng-click="prepareChangeStatus()" ng-disabled="btnDisabled">Change Status</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#saveQueryPopup">Save Search</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#downloadModal" ng-click="prepareDownloadModal()" ng-disabled="btnDisabled">Download</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#addCollectionPopup" ng-disabled="btnDisabled">Add to collection</button>
+      </div>
+    </div><!-- /.top action buttons -->
+
+    <!-- NAV - CONTENT SOURCES -->
+    <div class="row" >    
+     <div class="col-xs-12 rabo-mg-bottom-10">
+      <ul class="nav navbar-nav navbar-right rabo-clear-mg">
+        <li ng-if="channels.global.isActiveTab()" ng-init="f=channels.global.fields.namespace">
+          <div class="dropdown">
+            <strong>Channel:</strong>&nbsp;
+            <button class="btn btn-default dropdown-toggle" type="button" id="channel_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{f.getRawValue().label}}&nbsp;&nbsp;<span class="glyphicon" ng-class="f.getRawValue().glyph"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortby_dropdown">
+                <li ng-repeat="item in f.options"><a href="" rel="#" ng-click="f.setValue(item)">{{item.label}}&nbsp;&nbsp;<span class="glyphicon" ng-class="item.glyph"></span></a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="rabo-mg-left-20">
+          <div>
+            <strong>Country / Legal Entity:</strong>&nbsp;
+            <div class="rabo-filter-results" ng-dropdown-multiselect="" options="channels.global.fields.country.options" selected-model="channels.global.fields.country[modelDS.get()]" extra-settings="channels.global.fields.country.config.settings"></div>
+          </div>
+        </li>
+        <li class="rabo-mg-left-20">
+          <div>
+              <label>
+                  <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="channels.global.fields.deleted[modelDS.get()]" /> 
+                  <strong>Include deleted documents</strong>
+              </label>
+          </div>
+        </li>
+        <li class="rabo-mg-left-20">
+          <div class="dropdown">
+            <strong>Sort by:</strong>&nbsp;
+            <button class="btn btn-default dropdown-toggle" type="button" id="sortby_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{channels.global.fields.sortBy.getRawValue().label}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortby_dropdown">
+              <li ng-repeat="item in channels.global.fields.sortBy.options track by item.id"> <a href="" rel="#" ng-click="channels.global.fields.sortBy.setValue(item.id)">{{item.label}}</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+      </div>
+    <!-- PAGINATION -->
+    <div class="row"  ng-hide="noResults">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-4">
+            <ul uib-pagination total-items="searchRS.getCount()" ng-show="channels.global.fields.resultsPerPage.getValue() < searchRS.getCount()" ng-model="channels.global.fields.page[modelDS.get()]" max-size="4" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="channels.global.fields.resultsPerPage.getValue()"></ul>
+        </div>
+        <div class="col-md-3">
+            <ul class=" navbar-right pagination">
+                <li>
+                    <div>
+                        <strong style="color:#333">Page Size:</strong>&nbsp;
+                        <select style="display: inline; width:70px" id="pageSizeTop" name="pageSizeTop" ng-model='channels.global.fields.resultsPerPage[modelDS.get()]' ng-change="updatePageSize()" class="form-control" ng-options="item.label for item in channels.global.fields.resultsPerPage.options track by item.id">
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div><!-- /.pagination -->
+
+
+    <!-- TABLE -->
+    <div class="row">
+      <div class="row  rabo-mg-bottom-20" ng-show="noResults"><!-- Info when action download started -->
+        <div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray text-center">{{noResultsMessage}}</div>
+      </div><!-- /.end -->
+      <div data-table-generator ng-if="tableData"></div>
+    </div>
+
+    
+    <script>
+      $('#allcb').change(function(){
+        if($(this).prop('checked')){
+          $('tbody tr td input[type="checkbox"]').each(function(){
+            $(this).prop('checked', true);
+          });
+        }else{
+          $('tbody tr td input[type="checkbox"]').each(function(){
+            $(this).prop('checked', false);
+          });
+        }
+      });
+    </script>
+
+    <div class="row"  ng-hide="noResults">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-4">
+            <ul uib-pagination total-items="searchRS.getCount()" ng-show="channels.global.fields.resultsPerPage.getValue() < searchRS.getCount()" ng-model="channels.global.fields.page[modelDS.get()]" max-size="4" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="channels.global.fields.resultsPerPage.getValue()"></ul>
+        </div>
+        <div class="col-md-3">
+            <ul class=" navbar-right pagination">
+                <li>
+                    <div>
+                        <strong style="color:#333">Page Size:</strong>&nbsp;
+                        <select style="display: inline; width:70px"  id="pageSizeBottom" name="pageSizeBottom" ng-model='channels.global.fields.resultsPerPage[modelDS.get()]' ng-change="updatePageSize()" class="form-control" ng-options="item.label for item in channels.global.fields.resultsPerPage.options track by item.id">
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div><!-- /.pagination -->
+
+    <!-- BOTTOM ACTION BUTTONS -->
+    <div class="row rabo-clear-mg-left rabo-mg-bottom-10">
+      <div class="col-xs-12 rabo-clear-pd">
+        <button type="button" class="btn rabo-btn rabo-btn-blue" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>
+        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-15" ng-click="selectPage()">Select Page</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-50" data-toggle="modal" data-target="#retentionModal" ng-click="prepareChangeStatus()" ng-disabled="btnDisabled" style="margin-left: 64px;">Legal hold</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#changeStatusModal" ng-click="prepareChangeStatus()" ng-disabled="btnDisabled">Change Status</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#saveQueryPopup">Save Search</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#downloadModal" ng-click="prepareDownloadModal()" ng-disabled="btnDisabled">Download</button>
+        <button type="button" class="btn rabo-btn rabo-mg-left-15" data-toggle="modal" data-target="#addCollectionPopup" ng-disabled="btnDisabled">Add to collection</button>
+      </div>
+    </div><!-- /.bottom action buttons -->
+  </div><!-- /.right columnt -->
+</div><!-- /.row content -->
+
+
+<!-- MODAL - result-row NEED TO CHANGE ID IN JS!!!! -->
+<div class="modal fade" id="resultModal" ng-controller="resultItemCtrl">
+  <div class="modal-dialog bigModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" style="margin-top: 3px;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="row form-group" style="margin-bottom:0px; margin-left: 0px">
+          <h4 style="margin-top: 5px; margin-bottom: 0px; float: left">{{header}}&nbsp;</h4>
+          <a data-toggle="modal" ng-show="!isLoading" data-target="#contextualDetailsHelp" style="cursor: pointer;"><span style="margin-top: 8px; margin-left: 10px;" class="glyphicon glyphicon-question-sign"></span></a>
+        </div>
+      </div>
+      <form id="resultForm" method="post" class="rabo-text-left">
+        <div class="rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+          <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+        </div><!-- /.end -->
+        <div class="col-md-12" ng-if="isLoading">
+          <h3 style="color:#333">Processing...</h3>
+        </div>
+        <div class="col-md-12" style="margin-top: 8px;margin-bottom: 16px;" ng-show="!isLoading">
+          <div class="col-md-12">
+            <h3 style="margin-bottom: 10px">{{titleName}}</h3>
+            <div ng-bind-html="titleValue"></div>
+          </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 8px;" ng-show="!isLoading">
+          <div data-info-section-field ng-repeat="infoField in infoFields | filter: {key: '!Sound'} "></div>
+        </div>
+
+        <div ng-if="getAudioUri()" ng-init="audio = loadAudio(); " class="col-md-12">
+
+            <div class="col-md-12" ng-if="audio && audio.canPlay">
+                
+                <div style="background-color: black">
+                    <div style="padding:10px">
+                    <img width="100%" ng-src="{{waveFormUri}}" />
+                    <span style="color: white" class="rabo-mg-left-10">{{audio.currentTime | secondsToDateTime | date:'HH:mm:ss'}}</span>
+                    </div>
+                    <input class="form-control" string-to-number type="range" min="0" max="1" step="any" ng-model="audio.progress" />
+                </div>
+                
+                <div class="clearfix rabo-margin-top-20"></div>
+                
+                <button ng-if="audio.paused" ng-click="audio.play()">Play</button>
+                <button ng-if="!audio.paused"  ng-click="audio.pause()">Pause</button>
+                <button ng-click='audio.restart()'>Stop</button>
+                <button ng-click='audio.muting = !audio.muting'>Mute</button>
+                
+                <div class="clearfix rabo-margin-top-20"></div>                
+                
+                <label>Volume</label>
+                <input class='form-control' string-to-number type="range" min="0" max="1" step="0.01" ng-model='audio.volume' />
+                <label>Playback Rate</label>            
+                <input class="form-control" type="range" min="0.2" max="2.5" step="any" ng-model="audio.playbackRate"> 
+                
+            </div>
+            <div class="col-md-12" ng-show="!audio || !audio.canPlay"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Loading audio...    </div>
+            
+            <div class="clearfix rabo-margin-top-20"></div>
+        </div>
+        
+        <div class="col-md-12" ng-show="(!isLoading)&&(haveAttachments)" style="float: left">
+          <div class="col-md-12">
+            <div style="float: left"><b>Attachments: </b> </div>
+            <div style="float: left; cursor: pointer; text-decoration: underline;" ng-repeat="attachmentValue in attachmentValues">
+              <p style="margin-left: 10px;" data-toggle="modal" data-target="#downloadModal" ng-click='downloadAttachment(attachmentValue.filename, attachmentValue.path)'>{{attachmentValue.filename}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" ng-show="!isLoading">
+          <div data-single-result ng-if="resultData"></div><br /><br/>
+        </div>
+        <div class="modal-footer">
+          <div class="col-md-12" ng-show="processingDownload">
+            <div class="pull-right rabo-result-count-box">
+              <p class="rabo-color-orange"><strong>Processing...</strong></p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="button" class="btn rabo-btn rabo-mg-left-10" style="margin-top: 28px" data-toggle="modal" data-target="#downloadModal" ng-click="download()">Download</button>
+            <button type="button" class="btn rabo-btn rabo-btn-blue" style="margin-top: 28px" data-toggle="modal" data-target="#resultModal" ng-click="exitDetails()">OK</button>
+          </div>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal save query action -->
+
+
+<!-- THIS MODAL HAS ERRORS WITH THE SCOPE IF IS MOVED TO A DIRECTIVE -->
+<div class="modal fade" id="documentNotesModal" ng-controller="notesCtrl" tabindex="-1"><!-- MODAL - add flag item -->
+  <div class="modal-dialog">
+    <div class="modal-content bigModal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Notes</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal rabo-text-left">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Note:</label>
+            <div class="col-sm-9">
+              <textarea class="form-control rabo-input" rows="3" ng-model="noteText"></textarea>
+            </div>
+          </div>
+
+
+          <!-- TABLE -->
+          <div class="row">
+            <div data-notes-history-table ng-if="notesData"></div><br /><br/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rabo-btn rabo-btn-blue" ng-click="addNote()">Add Note</button>
+        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-10" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->
+
+
+<!-- MODALS -->
+<div data-save-query-modal ng-if="!savedSS.isActive()"></div><!-- new query modal -->
+<div data-update-query-modal ng-if="savedSS.isActive()"></div><!-- update query modal -->
+<div data-add-collection-modal></div><!-- add new collection modal  -->
+<div data-change-status-modal></div><!-- change status modal  -->
+<div data-download-modal></div><!-- download modal  -->
+<div data-retention-modal></div><!-- retention modal  -->
+<div data-contextual-help title="'Search Results Help'" data-content="'resources/help/searchHelp.html'"></div>
+<div class="modal fade" id="contextualDetailsHelp" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search Details Help</h4>
+      </div>
+      <div class="modal-body">
+        <iframe style="width: 100%;height:100%;min-height:300px;border:none" src="resources/help/searchDetailsHelp.html"></iframe>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->

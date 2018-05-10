@@ -1,0 +1,93 @@
+<!-- INFO SECTION -->
+<header-search data-title="titlePage"></header-search>
+
+<div class="row  rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+    <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+</div><!-- /.end -->
+
+<!-- TOP ACTION BUTTONS -->
+<div class="row">
+    <div class="col-md-5">
+        <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+        <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+    </div>
+    <div class="col-md-7">
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" ng-click="export()">Download to CSV</button>
+        <!--button type="button" class="btn pull-right rabo-btn rabo-mg-lpagineft-10" ng-click="addNote()">Add Note</button-->
+        <!--
+        <button class="btn pull-right rabo-btn rabo-mg-left-10" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Upload from CSV</button>
+        -->
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Delete</button>
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#addNewPopup">New</button>        
+    </div>
+</div><!-- /.top action buttons -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- TABLE GENERATOR - better to have table in template -->
+<div class="row">
+    <div data-table-generator ng-if="tableData"></div>
+</div><!-- /.table generator -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- BOTTOM ACTION BUTTONS -->
+<div class="row rabo-margin-top-5">
+    <div class="col-md-5">
+        <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+        <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+    </div>
+    <div class="col-md-7">
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" ng-click="export()">Download to CSV</button>
+        <!--button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" ng-click="addNote()">Add Note</button-->
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Delete</button>
+        <!--
+        <button class="btn pull-right rabo-btn rabo-mg-left-10" ngf-select ngf-change="upload($files)" ngf-multiple="multiple">Upload from CSV</button>
+        -->
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#addNewPopup">New</button>        
+    </div>
+</div><!-- /.bottom actions buttons -->
+
+<!-- ADD NEW USER MODAL -->
+<div data-add-new-modal></div>
+
+<!--DELETE MODAL -->
+<div data-delete-modal></div>
+
+<div data-contextual-help title="'Custodian Group Management Help'" content="'resources/help/custodianGroupHelp.html'"></div>

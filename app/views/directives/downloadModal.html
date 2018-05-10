@@ -1,0 +1,66 @@
+<div class="modal bigModal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="downloadModalForm" class="form-horizontal rabo-text-left" autocomplete="off">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{downloadModalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="rabo-mg-bottom-20">
+                        <strong>{{downloadModalMessage}}</strong>
+                        <strong ng-if="downloadModalMessage2"><br />{{downloadModalMessage2}}</strong>                                    
+                    </p>
+                    <error-message data-em-messages="messageService.messages" data-em-groups="download"></error-message>                    
+
+                    <div class="form-group" ng-show="selectDirectoryMode">
+                        <div class="rabo-margin-top-10 row col-sm-12">
+                            <label class="col-sm-4 control-label text-left">Select a directory:</label>
+                            <div class="col-sm-8">
+                                <select name="directory" required class="form-control rabo-input-220 download-select-directory" ng-model="selectedDirectory" ng-change="selectedDirectoryUpdate()" ng-options="directory.name for directory in directoryOptions" ng-disabled="loadingDirectories">
+                                    <option value="">-- select directory --</option>
+                                </select>
+                                <span ng-show="loadingDirectories" class="glyphicon glyphicon-refresh glyphicon-spin download-dialog-spin"></span>
+                            </div>
+                        </div>
+                        <div class="rabo-margin-top-10 row col-sm-12">
+                            <label class="col-sm-4 control-label text-left">Zip filename:</label>
+                            <div class="col-sm-8">
+                                <input required type="text" name="zipFilename" class="form-control rabo-input-220" ng-model="zipFilename"/>
+                            </div>
+                        </div>  
+                        <div class="rabo-margin-top-10 row col-sm-12">
+                            <label class="col-sm-4 control-label text-left">Export password:</label>
+                            <div class="col-sm-8">
+                                <input required type="password" name="zipPassword" class="form-control rabo-input-220" ng-model="zipPassword"/>
+                            </div>
+                        </div>
+
+                        <div class="rabo-margin-top-10 row col-sm-12">
+                            <label class="col-sm-4 control-label text-left">Export path:</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="exportPath" class="form-control rabo-input-220 download-select-directory rabo-no-background-color" ng-disabled="true" ng-model="exportPath"/>
+                                <span ng-show="loadingDirectories" class="glyphicon glyphicon-refresh glyphicon-spin download-dialog-spin"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="!selectDirectoryMode">
+                        <div class="rabo-margin-top-10 row col-sm-12">                        
+                            <label class="col-sm-3 control-label">Name:</label>
+                            <div class="col-sm-9">
+                                <input ng-required="!selectDirectoryMode" type="text" name="newDirectoryName" class="form-control rabo-input-220" ng-model="newDirectoryName"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" ng-click="switchToNewDirectoryMode()" style="margin-right: 38px;" ng-show="selectDirectoryMode">New Directory</button>
+                    <button type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{downloadModalForm.$valid ? 'modal' : ''}}" ng-click="downloadModalForm.$valid && addItem()" ng-show="selectDirectoryMode">OK</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal" ng-show="selectDirectoryMode">Cancel</button>
+                    <button type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="downloadModalForm.newDirectoryName.$valid && addDirectory()" ng-show="!selectDirectoryMode">OK</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" ng-click="switchToSelectDirectoryMode()" ng-show="!selectDirectoryMode">Cancel</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>

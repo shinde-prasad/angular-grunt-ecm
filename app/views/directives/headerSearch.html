@@ -1,0 +1,7 @@
+<div class="rabo-mg-bottom-30 rabo-margin-top-10">
+  <span class="rabo-clear-mg">
+      <h1 ng-if="showSS()" class="section-title"><small><span ng-click="savedSS.reset()" title="Detach saved query" class="rabo-pointer glyphicon glyphicon-log-out"></span></small> {{savedSS.getName()}}</h1>
+      <h1 ng-if="!showSS()" class="section-title">{{title}}</h1>     
+    <a data-toggle="modal" ng-click="$broadcast('load-help-content')" data-target="#contextualHelp"><span class="glyphicon glyphicon-question-sign rabo_help"></span></a>
+  </span>
+</div>

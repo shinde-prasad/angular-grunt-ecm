@@ -1,0 +1,93 @@
+<div class="modal fade" id="addGroupUserPopup" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content modal800">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add new user to group</h4>
+                <error-message data-em-messages="messageService.messages" data-em-groups="addUser"></error-message>                
+            </div>
+            <div class="modal-body">
+
+              <div class="row rabo-mg-bottom-20" ng-show="eventFired"><!-- Showed when error or success event is found -->
+                <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFired=!eventFired" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+              </div>
+
+              <p><strong>Enter the user information</strong></p>
+              <form name="modalFormUser" class="form-horizontal rabo-text-left" autocomplete="off" >
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label text-left">User:</label>
+                        <div class="col-sm-10">
+                              <div class="col-sm-10"><input type="search" name="userName" required class="form-control" placeholder="Type and select..." ng-model="groupUserId" ng-blur="!groupUserId ? groupUserId = null : null" typeahead-editable="false" uib-typeahead="custodian as custodian.name for custodian in getCustodianTypeAhead($viewValue)" ></div>
+                              <div class="col-sm-2 rabo-padding-left-5">
+                                  <button type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="modalFormUser.$valid && addParticipant();">Add</button>                                                  
+                              </div>
+                        </div>
+                    </div>
+                </form>
+              <form name="modalFormReason" class="form-horizontal rabo-text-left">
+                <div class="form-group">
+                  <div class="col-sm-offset-1 col-sm-10 rabo-padding-right-0 rabo-padding-left-0">
+                    <div class="col-sm-12">
+                      <div ng-repeat="participant in participants">
+                        <div class="col-sm-5 rabo-margin-top-5">
+                          <select required class="form-control" name="singleSelect" ng-change="updateReasonSelection($index)" ng-model="data.singleSelect[$index]">
+                            <option value="" ng-selected="1 === 1">-- select reason --</option>
+                            <option value="1">New employee</option>
+                            <option value="2">New location</option>
+                            <option value="3">Temporary investigation</option>
+                            <option value="4">Change of role</option>
+                            <option value="5">First addition to Custodian Group</option>
+                            <option value="6">Administrative correction</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-5 rabo-margin-top-5">
+                          <input class="form-control rabo-no-background-color" ng-disabled="true"  value="{{participant.name}}" />
+                        </div>
+                        <div class="col-sm-1 rabo-padding-left-0 rabo-margin-top-5">
+                          <span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#participantNotesModal" ng-click="prepareNote($index)"></span>
+                        </div>
+                        <div class="col-sm-1 rabo-padding-left-0 rabo-margin-top-5">
+                          <span class="glyphicon glyphicon-minus" style="color:red" ng-click="participants.splice($index,1)"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" ng-disabled="!participants || participants.length === 0" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalFormReason.$valid ? 'modal' : ''}}" ng-click="modalFormReason.$valid && addGroupUser()">OK</button>                                
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <div class="modal fade" id="participantNotesModal" tabindex="-1"><!-- MODAL - add flag item -->
+        <div class="modal-dialog">
+            <div class="modal-content bigModal">
+                <form name="modalFormNotes" class="form-horizontal rabo-text-left">          
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="hideModal()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Notes</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Note:</label>
+                            <div class="col-sm-9">
+                                <textarea name="note" required class="form-control rabo-input" rows="3" ng-model="noteText"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div data-participant-notes-history-table ng-if="notesData"></div><br /><br/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-disabled="!noteText" type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="modalFormNotes.$valid && addNote(index,true)">Add Note</button>                            
+                        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="hideModal()">Close</button>
+                    </div>
+                </form>          
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal add action -->
+
+</div><!-- /.modal add action -->
+

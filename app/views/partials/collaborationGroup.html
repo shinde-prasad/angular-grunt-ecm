@@ -1,0 +1,36 @@
+
+<h1>{{groupName}}</h1>
+
+<div class="row  rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+    <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+</div><!-- /.end -->
+<!--
+<div class="row rabo-mg-bottom-20">
+    <div data-info-section-field ng-repeat="(key, value) in groupInfo"></div>
+</div>
+-->
+<div class="rabo-mg-bottom-20">
+    <div class="row rabo-mg-bottom-20">
+        <div class="col-md-6">
+            <p><strong>Description:</strong> {{groupInfo["description"]}}</p>
+            <p><strong>Date Modified:</strong> {{groupInfo["timestamp"]}}</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Owner:</strong> {{groupInfo["owner"]}}</p>
+            <p><strong>Type:</strong> {{groupInfo["type"]}}</p>
+        </div>
+    </div>
+</div>
+
+<div ><hr></div>
+<!-- TOP ACTION BUTTONS -->
+<h3>Members</h3>
+
+<div class="row">
+    <div data-table-generator ng-if="tableData"></div>
+</div>
+
+<!-- PAGINATION -->
+<nav class="text-center rabo-color-orange" ng-hide="loading">
+    <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-click="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+</nav><!-- /.pagination -->

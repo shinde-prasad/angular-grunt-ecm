@@ -1,0 +1,37 @@
+<div class="modal fade" id="addContentSourcePopup" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="modalForm" class="form-horizontal rabo-text-left">            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 ng-if="!editedTableDataRow" class="modal-title">Add new content source</h4>
+                    <h4 ng-if="editedTableDataRow" class="modal-title">Edit content source</h4>                
+                </div>
+                <div class="modal-body">
+                    <p><strong>Enter the content source information</strong></p>
+                    <error-message data-em-messages="messageService.messages" data-em-groups="addContentSource"></error-message>                    
+                    <div class="form-group" ng-class="{'has-error': modalForm.channelName.$invalid && modalForm.$submitted}">
+                        <label class="col-sm-3 control-label text-left">Name:</label>
+                        <div class="col-sm-9">
+                            <select name="channelName" required class="form-control rabo-input-220" ng-model="contentSourceName">
+                                <option style="display:none" value="">-- select a name --</option>
+                                <option ng-repeat="channel in channelSS.getChannelsAsArray() | contentSourcesOnly" value="{{channel.getApiName()}}">{{channel.getCaption()}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': modalForm.userId.$invalid && modalForm.$submitted}">
+                        <label class="col-sm-3 control-label">User Id:</label>
+                        <div class="col-sm-9">
+                            <input name="userId" type="text" required class="form-control rabo-input-220" ng-model="identifierName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-if="!editedTableDataRow" type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalForm.$valid ? 'modal' : ''}}" ng-click="modalForm.$valid && addContentSource()">OK</button>
+                    <button ng-if="editedTableDataRow" type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalForm.$valid ? 'modal' : ''}}" ng-click="modalForm.$valid && updateContentSource()">OK</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                </div>            
+            </form>            
+        </div>
+    </div>
+</div>

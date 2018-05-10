@@ -1,0 +1,55 @@
+<div class="col-md-12 rabo-border-top-silver">
+    <h3>{{chartTitle | translate}}</h3>
+    <div style="float: right" class="form-group">
+        <div >
+            <label class="control-label">Show as table</label>
+            <input type="checkbox" ng-model="showTable">
+        </div>
+    </div>
+    <div class="col-md-12" >
+        <div ng-show="!showTable">
+            <!--<div class="col-md-6" ng-show="showSuccessChart">-->
+            <div class="col-md-6" >
+                <div class="form-group">
+                    <label class="control-label">{{successTitle}}</label>
+                    <div google-chart chart="latestChart" ng-hide="loadingChart3" style="padding-left: 78px;"></div>
+                    <a style="cursor:pointer; float: right; margin-bottom: 5px" ng-show="hasFailureDetails" ng-click="showdetails()">{{detailsText}}</a>
+
+                </div>
+            </div>
+            <!--<div class="col-md-6" ng-show="!showSuccessChart">-->
+                <!--<div class="form-group">-->
+                    <!--<label class="control-label">{{failureTitle}}</label>-->
+                    <!--<div google-chart chart="chartDetails"  ng-hide="loadingChart3" style="padding-left: 78px;"></div>-->
+                    <!--<a style="cursor:pointer; float: right; margin-bottom: 5px"  ng-click="showSuccessChart=!showSuccessChart">Back</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Object success history</label>
+                    <div google-chart chart="successChart" ng-hide="loadingChart3"></div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Object total history</label>
+                        <div google-chart chart="totalChart" ng-hide="loadingChart3"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Object failure history</label>
+                        <div google-chart chart="failureChart" ng-hide="loadingChart3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: left" class="col-md-12" >
+        <div ng-show="showTable">
+            <div data-table-generator ng-if="tableData" ></div>
+        </div>
+    </div>
+</div>

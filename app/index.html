@@ -1,0 +1,219 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/web/favicon-16x16.png">  
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:csss -->
+  <link href="bower_components/adm-dtp/dist/ADM-dateTimePicker.min.css" rel="stylesheet" type="text/css"/>
+  <link href="bower_components/summernote/dist/summernote.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+  <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link href="styles/rabo-main.css" rel="stylesheet" type="text/css" />
+    
+  <!--
+  <link href="styles/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link href="styles/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+  -->
+  <!-- endbuild -->
+  
+
+</head>
+<body ng-app="searchApp">
+
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- MAIN WRAPPER -->
+<div id="page" ng-controller="mainPageCtrl">
+  <!--{{footerData.resultInfo}}-->
+  <!-- CONTAINER -->
+  <div class="container">
+    <!-- TOP NAVBAR  -->
+    <nav class="navbar navbar-default rabo-color-orange rabo-clear-border rabo-clear-bg rabo-main-nav" ng-show="$route.current.activetab !== 'login'">
+      <div class="container-fluid rabo-clear-pd">
+        <div class="navbar-header rabo-clear-mg-left">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#rabo-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand rabo-logo" href="#/"><img alt="rabobank-logo" src="images/rabobank-logo.png" /></a>
+          <div ng-if="false" id="app-version"></div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="rabo-navbar-collapse">
+          <ul class="nav navbar-nav pull-right rabo-navbar-top-1 rabo-color-gray rabo-font-13">
+            <li has-permission="admin" class="nav top-row" ng-class="{active: ($route.current.activetab === 'manageWelcome')}"><a href="#/manageWelcome">Manage Welcome Page</a></li>
+            <li ng-if="welcomeService.isLandingPageAvailable()" has-permission="!admin" class="nav top-row"><a href="" ng-click="welcomeService.openWelcomeModal()">View Welcome Page</a></li>            
+            <li class="nav top-row" ng-class="{active: ($route.current.activetab === 'auditSearch')||($route.current.activetab === 'auditDetails')}"><a href="#/auditSearch">Audit</a></li>
+            <li  ng-class="{active: ($route.current.activetab === 'indexDashboard')}"><a href="#/indexDashboard">Index Dashboard</a></li>
+            <li ng-class="{active: $route.current.activetab === 'collaborationGroup'}"><a href="#/collaborationGroup">My Group</a></li>
+            <li><a href="#" ng-click="logout()">Logout</a></li>
+            <li><a href="resources/Hitachi%20ECM%20End%20User%20Manual%20v1.8.pdf" class="rabo-clear-border" target="_blank">Help</a></li>
+          </ul>
+          <ul class="nav navbar-nav pull-right rabo-clear-right rabo-border-top-silver rabo-color-blue rabo-clear-bg">
+            <li class="nav" ng-class="{active: $route.current.activetab === 'search'}"><a href="#/">Search</a></li>
+            <li ng-show="searchRS.getCount() > 0" class="nav" ng-class="{active: $route.current.activetab === 'searchResults'}"><a href="#/results">Results</a></li>
+            <li class="nav" ng-class="{active: $route.current.activetab === 'manageSearches'}"><a href="#/manageSearches">Saved Searches</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageCollections') || ($route.current.activetab === 'collectionDetails')}"><a href="#/manageCollections">Collections</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageKeywords')||($route.current.activetab === 'keywordDetails')}"><a href="#/manageKeywords">Keywords</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageFlagRules')||($route.current.activetab === 'flagDetails')}"><a href="#/manageFlagRules">Flagging Rules</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageUsers')||($route.current.activetab === 'userDetails')}"><a href="#/manageUsers" ng-click="changeUserFlag(0)">User Directory</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageGroups')||($route.current.activetab === 'groupDetails')}"><a href="#/manageGroups" ng-click="changeUserFlag(1)">Custodian Groups</a></li>
+            <li class="nav" ng-class="{active: ($route.current.activetab === 'manageExports')||($route.current.activetab === 'exportDetails')}"><a href="#/manageExports">Exports</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav><!-- /.top navbar -->
+    
+    <error-message data-em-messages="messageService.messages" data-em-groups="global"></error-message>
+    
+    <!-- CONTENT -->
+    <div class="content ng-cloak" ng-view=""></div>
+
+    <!-- FOOTER -->
+    <nav class="navbar navbar-default rabo-footer" ng-cloak ng-hide="$route.current.activetab === 'login'">
+      <div class="col-md-4">
+        <p class="navbar-text">Welcome <strong>{{footerData.resultInfo.userInfo}}</strong></p>
+      </div>
+      <div class="col-md-4"><p class="navbar-text">Version: </p></div>
+      <div class="col-md-4" ng-if="footerData.resultInfo.resultsCount && footerData.resultInfo.resultsCount > 0">
+        <p class="navbar-text pull-right">Showing <strong>{{footerData.resultInfo.firstPosition}} - {{footerData.resultInfo.lastPosition}} </strong> of <strong>{{footerData.resultInfo.resultsCount}}</strong> matches</p>
+      </div>
+      <div class="col-md-12">
+        <p class="navbar-text rabo-mg-top-0" ng-show="footerData.resultInfo.showLastLoginCount <= 1">You last logged in at {{footerData.resultInfo.lastLogin === null ? 'Never':footerData.resultInfo.lastLogin | date:'H:mm' + ' on ' + (footerData.resultInfo.lastLogin | date:'d/M/yyyy') }}</p>
+      </div>
+    </nav><!-- /.footer -->
+  </div><!-- /.container -->
+</div><!-- /.main wrapper -->
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/angular-google-chart/ng-google-chart.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+<script src="bower_components/angular-highlightjs/build/angular-highlightjs.js"></script>
+<script src="bower_components/myforce-angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
+<script src="bower_components/file-saver/FileSaver.js"></script>
+<script src="bower_components/angular-lzw/angular-lzw.js"></script>
+<script src="bower_components/angular-audio/app/angular.audio.js"></script>
+<script src="bower_components/summernote/dist/summernote.js" type="text/javascript"></script>
+<script src="bower_components/adm-dtp/dist/ADM-dateTimePicker.min.js" type="text/javascript"></script>
+<script src="bower_components/angular-summernote/dist/angular-summernote.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/bundles.js"></script>
+<script src="scripts/services/searchResultsService.js"></script>
+<script src="scripts/services/savedSearchService.js"></script>
+<script src="scripts/services/loginService.js"></script>
+<script src="scripts/services/footerService.js"></script>
+<script src="scripts/services/communicationService.js"></script>
+<script src="scripts/services/test/testService.js"></script>
+<script src="scripts/services/tableInteractionsService.js"></script>
+<script src="scripts/services/auditService.js"></script>
+<script src="scripts/services/channelSelectionService.js"></script>
+<script src="scripts/services/messageService.js"></script>
+<script src="scripts/services/welcomeService.js" type="text/javascript"></script>
+<script src="scripts/controllers/searchCtrl.js"></script>
+<script src="scripts/controllers/resultsPageCtrl.js"></script>
+<script src="scripts/controllers/savedSearchCtrl.js"></script>
+<script src="scripts/controllers/test/testCtrl.js"></script>
+<script src="scripts/controllers/mainPageCtrl.js"></script>
+<script src="scripts/controllers/resultItemCtrl.js"></script>
+<script src="scripts/controllers/loginCtrl.js"></script><!-- pedro -->
+<script src="scripts/controllers/errorCtrl.js"></script><!-- pedro -->
+<script src="scripts/controllers/helpCtrl.js"></script><!-- pedro -->
+<script src="scripts/controllers/manageCollectionsCtrl.js"></script><!-- pedro -->
+<script src="scripts/controllers/collectionDetailsCtrl.js"></script><!-- pedro -->
+<script src="scripts/controllers/collaborationGroupCtrl.js"></script>
+<script src="scripts/controllers/manageFlagRulesCtrl.js"></script>
+<script src="scripts/controllers/flagDetailsCtrl.js"></script>
+<script src="scripts/controllers/manageKeywordsCtrl.js"></script>
+<script src="scripts/controllers/keywordDetailsCtrl.js"></script>
+<script src="scripts/controllers/exportDetailsCtrl.js"></script>
+<script src="scripts/controllers/auditSearchCtrl.js"></script>
+<script src="scripts/controllers/auditDetailsCtrl.js"></script>
+<script src="scripts/controllers/manageUsersCtrl.js"></script>
+<script src="scripts/controllers/manageExportsCtrl.js"></script>
+<script src="scripts/controllers/userDetailsCtrl.js"></script>
+<script src="scripts/controllers/manageGroupsCtrl.js"></script>
+<script src="scripts/controllers/groupDetailsCtrl.js"></script>
+<script src="scripts/controllers/notesCtrl.js"></script>
+<script src="scripts/controllers/indexDashboardCtrl.js"></script>
+<script src="scripts/controllers/manageWelcomeCtrl.js" type="text/javascript"></script>
+<script src="scripts/directives/results.js"></script>
+<script src="scripts/directives/singleResultTable.js"></script>
+<script src="scripts/directives/tableGenerator.js"></script>
+<script src="scripts/directives/saveQueryModal.js"></script>
+<script src="scripts/directives/updateQueryModal.js"></script>
+<script src="scripts/directives/infoSectionField.js"></script>
+<script src="scripts/directives/quickLinks.js"></script>
+<script src="scripts/directives/deleteModal.js"></script>
+<script src="scripts/directives/deleteDetailModal.js"></script>
+<script src="scripts/directives/downloadModal.js"></script>
+<script src="scripts/directives/addNewModal.js"></script>
+<script src="scripts/directives/addExportModal.js"></script>
+<script src="scripts/directives/chartGenerator.js"></script>
+<script src="scripts/directives/addCollectionModal.js"></script><!-- pedro -->
+<script src="scripts/directives/welcomeModal.js"></script>
+<script src="scripts/directives/schedulerModal.js"></script>
+<script src="scripts/directives/mergeCollectionModal.js"></script><!-- pedro -->
+<script src="scripts/directives/addUserModal.js"></script><!-- pedro -->
+<script src="scripts/directives/contextualHelp.js"></script>
+<script src="scripts/directives/addContentSourceModal.js"></script><!-- pedro -->
+<script src="scripts/directives/addFlagItemModal.js"></script><!-- pedro -->
+<script src="scripts/directives/addGroupUserModal.js"></script><!-- pedro -->
+<script src="scripts/directives/notesHistoryTable.js"></script>
+<script src="scripts/directives/participantNotesHistoryTable.js"></script>
+<script src="scripts/directives/changeStatusModal.js"></script>
+<script src="scripts/directives/retentionModal.js"></script>
+<script src="scripts/directives/appDatetime.js"></script>
+<script src="scripts/directives/headerSearch.js"></script>
+<script src="scripts/directives/channelTree.js"></script>
+<script src="scripts/directives/channelField.js"></script>
+<script src="scripts/directives/selectableText.js"></script>
+<script src="scripts/directives/validateCron.js"></script>
+<script src="scripts/directives/errorMessage.js"></script>
+<script src="scripts/directives/converters/stringToNumber.js"></script>
+<script src="scripts/directives/converters/numberToString.js"></script>
+<script src="scripts/providers/environmentProvider.js"></script>
+<script src="scripts/config/translationCfg.js"></script>
+<script src="scripts/config/interceptorCfg.js"></script>
+<script src="scripts/rabo-main.js"></script>
+<script src="scripts/factories/fieldFactory.js" type="text/javascript"></script>
+<script src="scripts/factories/channelFactory.js" type="text/javascript"></script>
+<script src="scripts/factories/validationMethodsFactory.js" type="text/javascript"></script>
+<script src="scripts/factories/shortcodesFactory.js" type="text/javascript"></script>
+<script src="scripts/directives/validators/inputValidators.js" type="text/javascript"></script>
+<script src="scripts/directives/hasPermission.js" type="text/javascript"></script>
+<!-- endbuild -->
+<div data-welcome-modal></div>
+
+</body>
+</html>

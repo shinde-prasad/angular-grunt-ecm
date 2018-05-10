@@ -1,0 +1,120 @@
+<!-- INFO SECTION -->
+<!--<h1>{{ruleInfo["name"]}}</h1>-->
+<a class="btn rabo-btn rabo-btn-blue" href="javascript:history.go(-1)">Back</a>
+<h1>Flagging Rule Details</h1>
+
+<div class="row  rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+    <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+</div><!-- /.end -->
+
+<div class="rabo-mg-bottom-20">
+    <form name="editRulesForm" class="form-horizontal rabo-text-left" autocomplete="off">                    
+        <div class="row rabo-mg-bottom-20">
+            <div class="col-md-4">
+                <p>
+                    <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Name:</label>
+                    <span ng-if="readMode">{{ruleInfo["name"]}}</span> 
+                    <input type="text" required name="name" class="form-control rabo-input-220" ng-model="ruleInfo['name']" ng-if="editMode"/>
+                </p>
+                <p>
+                    <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Description:</label>
+                    <span ng-if="readMode">{{ruleInfo["description"]}}</span>
+                    <input type="text" required name="description" class="form-control rabo-input-220" ng-model="ruleInfo['description']" ng-if="editMode"/>
+                </p>
+                <p><strong>User:</strong> {{ruleInfo["user"]}}</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Created date:</strong> {{ruleInfo["createdDate"]}}</p>
+                <p><strong>Modified By:</strong> {{ruleInfo["modifiedBy"]}}</p>
+                <p><strong>Modified Date:</strong> {{ruleInfo["modifiedDate"]}}</p>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10"  data-toggle="modal" data-target="#deleteDetailPopup">Delete</button>
+                <button type="button" class="btn pull-right rabo-btn" ng-if="readMode" ng-click="editToggle()">Edit</button>
+                <button type="submit" class="btn pull-right rabo-btn" ng-if="editMode" ng-click="editRulesForm.$valid && saveName()">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div ><hr></div>
+<h3>Rule Items</h3>
+
+<!-- TOP ACTION BUTTONS -->
+<div class="row">
+    <div class="col-md-6">
+        <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+        <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Delete</button>
+        <!--<button type="button" class="btn pull-right rabo-btn rabo-mg-left-10">Add Batch</button>-->
+        <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addKeywordBatchPopup" ng-click="editedTableDataRow=false; getRuleDefinition(); resetModalDialog()">Add</button>
+    </div>
+</div><!-- /.top action buttons -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="bigCurrentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- TABLE GENERATOR - See directive tableGenerator.js for more info -->
+<div class="row">
+    <div data-table-generator ng-if="tableData"></div>
+</div><!-- /.table generator -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="bigCurrentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- BOTTOM ACTION BUTTONS -->
+<div class="row rabo-margin-top-5">
+    <div class="col-md-6">
+        <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+        <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Delete</button>
+        <!--<button type="button" class="btn pull-right rabo-btn rabo-mg-left-10">Add Batch</button>-->
+        <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addKeywordBatchPopup" ng-click="editedTableDataRow=false; getRuleDefinition(); resetModalDialog();">Add</button>
+    </div>
+</div><!-- /.bottom actions buttons -->
+
+
+<!--DELETE MODAL -->
+<div data-delete-modal></div>
+<div data-delete-detail-modal></div>
+
+<!-- ADD MODAL -->
+<div data-add-flag-item-modal></div>

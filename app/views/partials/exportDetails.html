@@ -1,0 +1,121 @@
+<!--
+<a class="btn rabo-btn rabo-btn-blue" href="javascript:history.go(-1)">Back</a>
+-->
+<h1 ng-switch="exportInfo['type']">
+    <span ng-switch-when="SSEXP">Saved Search Export</span>
+    <span ng-switch-when="TREXP">Traffic Export</span>    
+    <span ng-switch-default>Export</span>        
+</h1>
+
+<div class="rabo-offset-30 rabo-mg-bottom-20">
+    <form name="exportForm" class="row" autocomplete="off">
+        <div class="col-md-6" >
+            <div class="form-group">
+                <label class="col-sm-4 control-label" >Name:</label>
+                <div class="input-group col-sm-8">
+                    <input required type="text" name="ei-name" class="form-control rabo-input-300" ng-model="exportInfo['name']" style="display: inline; width: auto;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" >Description:</label>
+                <div class="input-group col-sm-8">
+                    <input required type="text" name="ei-description" class="form-control rabo-input-300" ng-model="exportInfo['description']" style="display: inline; width: auto;"/>
+                </div>
+            </div>
+            <div ng-if="exportInfo['type'] !== 'TREXP'" class="form-group">
+                <label class="col-sm-4 control-label" >Export Path:</label>
+                <div class="input-group col-sm-8">
+                    <label class="control-label font-weight-normal export-path">{{exportPath + "\\" + exportInfo['name']}}</label>
+                </div>
+            </div>
+            <div class="rabo-mg-bottom-15 rabo-margin-top-20">
+                <label class="col-sm-4 control-label" >Schedule:</label>
+                <div class="row col-sm-6">
+                    <label name="fromInput" class="rabo-input-300 control-label font-weight-normal" ng-bind="scheduleText"></label>
+                </div>
+                <div class="input-group col-sm-1">
+                    <button type="button" style="padding-left:10px;padding-right:10px;line-height:18px" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#schedulerPopup">...</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" >
+            <div ng-if="exportInfo['type'] !== 'TREXP'" class="form-group">
+                <label class="col-sm-4 control-label">Password:</label>
+                <div class="input-group col-sm-8">
+                    <input required type="password" ei-name="password" class="form-control rabo-input-300" ng-model='exportInfo["password"]'/>
+                </div>
+            </div>
+
+            <div ng-if="exportInfo['type'] !== 'TREXP'" class="form-group rabo-mg-bottom-40" ng-class="{'has-error': exportInfo['cpassword'] !== exportInfo['password']}">
+                <label class="col-sm-4 control-label">Confirm Password:</label>
+                <div class="input-group col-sm-8">
+                    <input required type="password" ei-name="cpassword" class="form-control rabo-input-300" ng-model='exportInfo["cpassword"]'/>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-11">
+                <button type="button" has-permission="admin" class="btn pull-right rabo-btn rabo-mg-left-10" ng-show="!newMode" data-toggle="modal" data-target="#deleteDetailPopup">Delete</button>
+                <button type="button" class="btn pull-right rabo-btn rabo-mg-left-5"  ng-click="cancel()">Cancel</button>
+                <button type="submit" has-permission="admin" class="btn pull-right rabo-btn" ng-click="exportForm.$valid && saveName()" ng-dblclick="return;" ng-disabled="alreadyClicked">Save</button>
+            </div>
+        </div>
+
+        <div ng-show="exportInfo['type'] === 'SSEXP'" ng-class="{'has-error': exportForm['ei-savedSearch'].$invalid}" class="row col-md-12 rabo-offset-30" >
+            <div class="form-group col-md-6">
+                <label class="col-sm-4 control-label" >Saved Search:</label>
+                <div class="input-group col-sm-7">
+                    <input ng-required="exportInfo['type'] === 'SSEXP'" name="ei-savedSearch" class="form-control" placeholder="Type and select..." ng-model='exportInfo["savedSearch"]' ng-blur="!exportInfo['savedSearch'] ? exportInfo['savedSearch'] = null : null" typeahead-editable="false" uib-typeahead="savedSearch as savedSearch.name for savedSearch in getSavedSearchTypeAhead($viewValue)" >
+                </div>
+            </div>
+        </div>
+      
+
+        <div ng-show="exportInfo['type'] !== 'SSEXP'" class="row col-md-12">
+            <div class="col-md-6 rabo-offset-30">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Country/LE:</label>
+                    <div class="input-group col-sm-7">
+                        <div class="globalFilter" ng-dropdown-multiselect="" options="channelSS.channels.global.fields.country.options" selected-model="channelSS.channels.global.fields.country[modelDS.get()]" extra-settings="channelSS.channels.global.fields.country.config.settings"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Custodian Group:</label>
+                    <div class="input-group col-sm-7">
+                        <input type="search" name="ei-custodianGroup" class=form-control placeholder="Type and select..." ng-model='exportInfo["custodianGroup"]' uib-typeahead="custodianGroup as custodianGroup.name for custodianGroup in getCustodianGroupTypeAhead($viewValue)" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Flagging Rule:</label>
+                    <div class="input-group col-sm-7">
+                        <select name="ei-flaggingRule" class="form-control" ng-model="exportInfo['flaggingRule']" ng-options="flag.name for flag in flagValues track by flag.value">
+                            <option style="display:none" value="" >-- Select flagging rule --</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6 rabo-offset-30" >
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" >Search Period Start:</label>
+                    <div class="input-group col-sm-7">
+                        <adm-dtp name="ei-startdate" ng-model="exportInfo['startdate']" disable="{{_data.shifting}}" full-data='startdate_detail' maxdate='{{startdate_detail.unix}}' ></adm-dtp>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-4 control-label">Search Period End:</label>
+                    <div class="input-group col-sm-7">
+                        <adm-dtp name="ei-enddate" ng-model="exportInfo['enddate']" disable="{{_data.shifting}}" full-data='enddate_detail' mindate='{{enddate_detail.unix}}'></adm-dtp>
+                    </div>
+                </div>
+            </div> 
+        </div>    
+    </form>
+</div>
+
+<div ng-show="exportInfo['type'] !== 'SSEXP'" class="row rabo-mg-bottom-20">
+    <channel-tree cht-model-attribute="export" cht-active="global"></channel-tree>  
+</div>
+
+<div data-delete-modal></div>
+<div data-delete-detail-modal></div>
+<div data-scheduler-modal></div>

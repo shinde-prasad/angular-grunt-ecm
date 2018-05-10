@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default rabo-border-silver" style="min-height: 20px" >
+    <div class="rabo-mg-bottom-20">
+        <div class="col-md-12 rabo-table rabo-channels">
+            <div ng-if="active==='global'" class="rabo-allchannel col-md-12">
+                <label><input type="checkbox" ng-model="channelHierarchy.all[modelDS.get()]" ng-click="channelHierarchy.all.click()" name="allCheckbox" /> <strong>Select All</strong></label>
+            </div>
+            <div class="col-md-12 rabo-table">
+                <div ng-if="active === channel.id || active === 'global'" ng-repeat="channel in channelHierarchy.all.getSubChannels()" class="col-md-12 rabo-border-top-silver rabo-channel" style="border-left: 0px;">
+                    <div class="col-md-2 rabo-subchannel"><label>
+                            <input type="checkbox" id="{{channel.id}}Checkbox" name="{{channel.id}}Checkbox" ng-click="channel.click()" ng-model="channel[modelDS.get()]" />
+                            <span ng-if="active!=='global'">{{channelHierarchy.all.getCaption()}}</span>
+                            <span ng-if="active==='global'">{{channel.getCaption()}}</span>
+                        </label>
+                    </div>
+                    <div ng-repeat="subChannel in channel.subChannels.concat([1,2,3,4])" class="rabo-channel col-md-2" style="border-left: 0px">
+                        <label xng-show="!channel.isCollapsed()" ng-if="$index <=3 && subChannel.getCaption()" class="font-weight-normal">
+                            <input type="checkbox" id="{{subChannel.id}}Checkbox" name="{{subChannel.id}}Checkbox" ng-click="subChannel.click()" ng-model="subChannel[modelDS.get()]" />
+                            {{subChannel.getCaption()}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

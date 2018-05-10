@@ -1,0 +1,48 @@
+<div class="modal fade" id="addKeywordBatchPopup" tabindex="-1"><!-- MODAL - add flag item -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="flaggingModalForm" class="form-horizontal rabo-text-left">            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 ng-if="!editedTableDataRow" class="modal-title">Add new flagging rule item</h4>
+                    <h4 ng-if="editedTableDataRow" class="modal-title">Edit flagging rule item</h4>                
+                </div>
+                <div class="modal-body">
+                    <p class="rabo-mg-bottom-20"><strong>Enter the flagging rule information</strong></p>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Criteria field:</label>
+                        <div class="col-sm-9">
+                            <select name="selectedCriteria" required class="form-control rabo-input-220" ng-model="selectedCriteria" ng-change="criteriaFieldUpdate()" ng-options="criteria.name | translate for criteria in criteriaFields track by criteria.name">
+                                <option ng-show="!selectedCriteria" value="">-- Select criteria --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Filter:</label>
+                        <div class="col-sm-9">
+                            <select name="selectedFilter" required class="form-control rabo-input-220" ng-model="selectedFilter">
+                                <option ng-show="!selectedFilter" value="">-- Select filter --</option>                                
+                                <option value="0">Includes</option>
+                                <option value="1">Excludes</option>
+                                <option ng-if="selectedCriteria.value === '2'" value="10">Includes ALL</option>                                
+                                <option ng-if="selectedCriteria.value === '2'" value="11">Excludes ALL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div ng-if="(selectedFilter === '0' || selectedFilter === '1') && selectedCriteria.value" class="form-group">
+                        <label class="col-sm-3 control-label">Value:</label>
+                        <div class="col-sm-9">
+                            <div ng-show="selectedCriteria.value !== '0'" ng-dropdown-multiselect="" options="formValues" extra-settings="filterDropdownSettings" selected-model="$parent.selectedValue" translation-texts="$parent.translations"></div>
+                            <textarea ng-show="selectedCriteria.value === '0'" ng-required="selectedCriteria.value === '0'" class="form-control rabo-input-220" rows="3" ng-model="$parent.textValue"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-if="!editedTableDataRow" type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{flaggingModalForm.$valid ? 'modal' : ''}}" ng-click="flaggingModalForm.$valid && addItem()">OK</button>
+                    <button ng-if="editedTableDataRow" type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{flaggingModalForm.$valid ? 'modal' : ''}}" ng-click="flaggingModalForm.$valid && updateItem()">OK</button> 
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>                    
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->

@@ -1,0 +1,126 @@
+<div class="modal fade" id="schedulerPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal800" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Schedule</h4>
+            </div>
+          <form name="SchedulerForm" method="post" ng-submit="addSchedule()" class="form-horizontal" novalidate>
+            <div class="modal-body">
+                <div class="col-lg-12 row ">
+                    <div class="col-lg-4 row">
+                        <label class="control-label">Scheduled:</label>
+                        <div id="generalScheduled" class="controls">
+                            <select id="source"
+                                    class="form-control rabo-input-220"
+                                    ng-model='_data.scheduleType'
+                                    ng-options="item.label for item in scheduleType track by item.value"
+                                    ng-change="updateSchedule('{{_data.scheduleType.value}}',_data.scheduleType.value)">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" ng-if="_data.scheduleType.value != 'none' && _data.scheduleType.value != 'later'" style="margin-top:35px; margin-left:20px; display:inline-block">
+                        <label><input type="checkbox" ng-model="_data.shifting" ng-checked="_data.shifting" name="shiftTime" class="font-weight-normal" />  Shifting Time Window</label>
+                    </div>
+
+                </div>
+                <div ng-class="{'has-error': SchedulerForm.startDate.$invalid}" class="rabo-mg-bottom-20 rabo-margin-top-10" style="display:inline-block">
+                    <label class="control-label" >Start date:</label>
+                    <div class="input-group col-sm-8">
+                        <adm-dtp disable="'{{_data.scheduleType.value}}' === 'none'" full-data='startDate_detail' mindate="{{startDate_detail.minDate}}" maxdate="{{endDate_detail.unix}}" ng-model='_data.startDate' class="rabo-input-220">
+                            <input name='startDate' ng-disabled="_data.scheduleType.value === 'none'" datetime-validate type='text' ng-model-options="{updateOn: 'blur', allowInvalid: false}" ng-model='_data.startDate' class="form-control" />
+                            <span class="input-group-btn">
+                                <button dtp-toggle class="btn btn-default rabo-dateinputButton" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                            </span>
+                        </adm-dtp>        
+                        
+                    </div>
+                </div>
+                <div ng-class="{'has-error': SchedulerForm.endDate.$invalid}" class="rabo-mg-bottom-20 rabo-margin-top-10"  style="margin-left:30px; display:inline-block">
+                    <label class="control-label" >End date:</label>
+                    <div class="input-group col-sm-8">
+                        <adm-dtp disable="'{{_data.scheduleType.value}}' === 'none' || '{{_data.scheduleType.value}}' === 'later'" full-data='endDate_detail' mindate="{{startDate_detail.unix}}" ng-model='_data.endDate' class="rabo-input-220">
+                            <input name='endDate' ng-disabled="_data.scheduleType.value === 'none' || _data.scheduleType.value === 'later'" datetime-validate type='text' ng-model-options="{updateOn: 'blur', allowInvalid: false}" ng-model='_data.endDate' class="form-control" />
+                            <span class="input-group-btn">
+                                <button dtp-toggle class="btn btn-default rabo-dateinputButton" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+                            </span>
+                        </adm-dtp>        
+                        
+                    </div>
+                </div>
+
+                <div id="scheduled" ng-show="_data.scheduleType.value !== 'none'" class="rabo-mg-bottom-20 rabo-margin-top-10 control-group " style="height: auto;">
+                    <div id="periodicallySchedule" class="controls" ng-show="_data.scheduleType.value == 'periodically'" style="padding-left: 0px;">
+                        <label class="col-lg-12 row">Run every:</label>
+                        <input style="display: inline" id="periodicallyHour" ng-model="_data.selectedHourNumber" class="input-mini rabo-input-80 form-control" min="0" max="23" type="number">
+                        <label>hours</label>
+                        <input style="display: inline" id="periodicallyMinute" ng-model='_data.selectedMinutes' class="input-mini rabo-input-80 form-control rabo-mg-left-10" min="0" max="59" type="number">
+                        <label>minutes</label>
+                    </div>
+                    <div id="dailySchedule" class="controls" ng-show="_data.scheduleType.value == 'daily'">
+                        <label class="col-lg-12 row label-shedule">Start time:</label>
+                        <select style="display: inline;" ng-model='_data.selectedHour' class="form-control rabo-input-140" ng-options="item.name for item in scheduleHours">
+                        </select>
+                        <label style="display: inline;">:</label>
+                        <select number-to-string style="display: inline;" ng-model='_data.selectedMinutes' class="form-control rabo-input-80">
+                            <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                        </select>
+                    </div>
+                    <div id="weeklySchedule" class="controls" ng-show="_data.scheduleType.value == 'weekly'" style="display: block;">
+
+                        <label class="col-lg-12 row label-shedule">Start time:</label>
+                        <select style="display: inline;" id="weeklyHour" ng-model='_data.selectedHour' class="form-control rabo-input-140 rabo-mg-bottom-20" ng-options="item.name for item in scheduleHours">
+                        </select>
+                        <label style="display: inline;">:</label>
+                        <select style="display: inline;" id="weeklyMinute" ng-model='_data.selectedMinutes' class="form-control rabo-input-80 rabo-mg-bottom-20">
+                            <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                        </select>
+
+                        <div class="control-group" style="width: 98%;">
+                            <label class="days" ng-repeat="item in scheduleDays" style="margin-right: 20px">
+                                <input name="weekDay" id="{{item.value}}" ng-model="item.active" type="checkbox">
+                                {{item.name}}</label>
+                        </div>
+                    </div>
+                    <div id="monthlySchedule" class="controls" ng-show="_data.scheduleType.value == 'monthly'">
+                        <div class="control-group ">
+                            <div class="rabo-mg-bottom-20" style="display:inline-block">
+                                <label class="control-label">Start day:</label>
+                                <div id="startDayScheduled" class="controls">
+                                    <select style="display: inline;" id="monthlyDay" ng-disabled="_data.lastDay" ng-model='_data.selectedDay' class="form-control rabo-input-80" ng-options="n for n in monthDayRange(1, 31)">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="rabo-mg-bottom-20" style="margin-left:20px; display:inline-block">
+                                <label><input type="checkbox" ng-model="_data.lastDay" ng-checked="_data.lastDay" name="shiftTime" class="font-weight-normal"  />  Last day of month</label>
+                            </div>
+                        </div>
+                        <label class="col-lg-12 row label-shedule">Start time:</label>
+                        <select style="display: inline;" ng-model='_data.selectedHour' class="form-control rabo-input-140" ng-options="item.name for item in scheduleHours track by item.value">
+                        </select>
+                        <label style="display: inline;">:</label>
+                        <select style="display: inline;" ng-model='_data.selectedMinutes' class="form-control rabo-input-80">
+                            <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                        </select>
+                    </div>
+                    <div id="advancedSchedule" class="controls col-sm-12" ng-if="_data.scheduleType.value == 'advanced'" style="float: none;">
+                        <div class="form-group" ng-class="{'has-error' :  SchedulerForm.$invalid }">
+                            <label class="col-lg-12 row">Advanced Schedule:</label>
+                            <input type="text" name="CronExpression" ng-model="_data.value" class="rabo-input-220 form-control" id="QuartzQuery"
+                                   required validate-cron placeholder="CRON Expression" autocomplete="off">
+                            <div ng-messages="SchedulerForm.CronExpression.$error">
+                              <p class="text-danger" ng-message="required">Required field</p>
+                              <p class="text-danger" ng-message="cron">Invalid CRON expression</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button ng-disabled="SchedulerForm.$invalid" type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="submitCheck()" data-toggle="modal" data-target="#schedulerPopup">OK</button>
+              <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->

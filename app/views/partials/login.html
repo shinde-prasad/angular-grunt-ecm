@@ -1,0 +1,58 @@
+<!-- ROW -->
+<div class="row rabo-mg-top-100">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 rabo-mg-bottom-10">
+        <div ng-show="error" class="alert alert-danger">{{error}}</div>
+        <p class="text-center rabo-mg-bottom-40">
+            <img alt="rabobank-logo" src="images/rabobank-logo.png" />
+        </p>
+        <h4 style="margin-bottom: 10px" class="text-center">
+            Electronic Communications Monitoring (ECM)
+        </h4>
+        <h4 style="font-size: 16px" class="text-center">
+            Search and Discovery Console
+        </h4>
+        <hr style="border-top:1px solid #eee" />
+        <form name="form" ng-submit="login()" role="form">
+            <div class="form-group">
+                <label for="username" class="rabo-mg-bottom-10">Username</label>
+                <i class="fa fa-key"></i>
+                <input type="text" name="username" id="username" class="form-control" ng-model="user" autocomplete=”off” required />
+            </div>
+            <div class="form-group">
+                <label for="password" class="rabo-mg-bottom-10">Password</label>
+                <i class="fa fa-lock"></i>
+                <input type="password" name="password" id="password" class="form-control" ng-model="password" autocomplete=”off” required />
+            </div>
+            <div class="form-group rabo-mg-bottom-40">
+                <label for="role" class="rabo-mg-bottom-10">Role</label>
+                <i class="fa fa-user"></i>
+                <select ng-init="role=loginRoles[2]" name="role" id="role" class="form-control" ng-model="role" ng-options="role.label for role in loginRoles">
+                </select>
+            </div>
+            
+            <error-message data-em-messages="messageService.messages" data-em-groups="login" em-brief></error-message>            
+            
+            <div class="row  rabo-mg-bottom-20" ng-show="loginFailed"><!-- Info when action download started -->
+                <div class="col-md-12 rabo-mg-bottom-10 rabo-color-orange text-center">{{loginFailedMessage}}</div>
+            </div><!-- /.end -->
+            <div class="form-actions text-center">
+                <button id="submit" type="submit" ng-disabled="false && (form.$invalid || daLoading)" class="btn rabo-btn rabo-btn-blue">Login</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <hr style="border-top:1px solid #eee"/>
+        <p class="text-center small">
+            <small>
+            <strong>IMPORTANT NOTICE</strong><br />
+            Rabobank Property: Unauthorised access or usage of this computer system in breach of internal policies is prohibited and may result in legal or disciplinary action being taken against you.
+            </small>
+        </p>
+    </div>
+    <script>
+        $( document ).ready(function() {
+            $($('body')[0]).prop("class","ng-scope");
+            $('.modal-backdrop').remove();
+        });
+    </script>
+</div>

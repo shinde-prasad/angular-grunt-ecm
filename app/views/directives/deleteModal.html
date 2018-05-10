@@ -1,0 +1,29 @@
+<div class="modal fade" id="deletePopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="modalFormDelete" class="form-horizontal rabo-text-left" autocomplete="off">            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{deleteModalTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>&#160;&#160;{{deleteMessage1}} <strong>{{countDeletedItems}}</strong> {{deleteMessage2}}</p>
+                    <p style="word-wrap: break-word"><strong>{{namesToBeDeleted}}</strong></p>
+                    <label style="display: inline;" ng-show="requestDeleteReason">Select a reason:</label>
+                    <select required class="form-control" name="singleSelect" ng-model="data.removeReason" ng-show="requestDeleteReason">
+                        <option value="" ng-selected="1 === 1">-- select reason --</option>                  
+                        <option value="1">End of temporary investigation</option>
+                        <option value="2">Change of role</option>
+                        <option value="3">Left employment</option>
+                        <option value="4">Left location</option>
+                        <option value="5">Administrative correction</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{(modalFormDelete.$valid || !requestDeleteReason) ? 'modal' : ''}}" ng-click="(modalFormDelete.$valid || !requestDeleteReason) && delete()">OK</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

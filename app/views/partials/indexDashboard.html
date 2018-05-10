@@ -1,0 +1,99 @@
+<!-- DATETIMEPICKER -->
+<div class="row form-group" style="margin-left: 0px">
+    <h1 style="float: left">HCI Indexing Status</h1>
+    <a data-toggle="modal" data-target="#contextualHelp" style="cursor: pointer;"><span class="glyphicon glyphicon-question-sign rabo_help"></span></a>
+</div>
+<!--<h1 class="rabo-mg-bottom-40">HDDS Indexing Status</h1>-->
+
+<div class="row  rabo-mg-bottom-20" ng-show="eventFound"><!-- Showed when error or success event is found -->
+    <div class="col-md-12 rabo-mg-bottom-10 alert text-center" ng-class="{'alert-success': (eventIsSuccess), 'alert-danger': (!eventIsSuccess)}" role="alert">{{eventMessage}}<button ng-click="eventFound=!eventFound" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+</div><!-- /.end -->
+
+<div class="row rabo-mg-bottom-40">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Start date:</label>
+            <adm-dtp full-data='startdate_detail' maxdate='{{enddate_detail.unix}}' ng-model='startDate'></adm-dtp>
+            <!--<div class="dropdown">-->
+                <!--<a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" >-->
+                    <!--<div class="input-group rabo-input-220"><input type="text" class="form-control" data-ng-model="startDate" data-app-datetime><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
+                    <!--<datetimepicker data-ng-model="startDate" data-datetimepicker-config="{ dropdownSelector: '#dropdown1', minuteStep:1 }"/>-->
+                <!--</ul>-->
+            <!--</div>-->
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">End date:</label>
+            <adm-dtp full-data='enddate_detail' mindate='{{startdate_detail.unix}}' ng-model='endDate'></adm-dtp>
+            <!--<div class="dropdown">-->
+                <!--<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" >-->
+                    <!--<div class="input-group rabo-input-220"><input type="text" class="form-control" data-ng-model="endDate" data-app-datetime><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>-->
+                    <!--</div>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">-->
+                    <!--<datetimepicker data-ng-model="endDate" data-datetimepicker-config="{ dropdownSelector: '#dropdown2', minuteStep:1 }"/>-->
+                <!--</ul>-->
+            <!--</div>-->
+        </div>
+</div><!-- /.datetimepicker -->
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <div class="col-md-12">
+            <button type="button" class="btn pull-right rabo-btn" ng-click="filter()">Filter</button>
+        </div>
+    </div>
+    </div>
+
+<!-- CANVAS -->
+<div class="row rabo-mg-bottom-40 text-center">
+    <!--<div class="col-md-6">-->
+        <!--<div style="padding-left: 146px;">-->
+            <!--<select class="form-control rabo-center rabo-input-220" ng-model="selectedOption1"-->
+                    <!--ng-change="optionSelected1()"-->
+                    <!--ng-options="indexOption as indexOption.name for indexOption in indexOptions"></select>-->
+        <!--</div>-->
+        <!--<div class="row  rabo-mg-bottom-20" ng-hide="!loadingChart1">&lt;!&ndash; Info when action download started &ndash;&gt;-->
+            <!--<div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray text-center">{{loadingMessage}}</div>-->
+        <!--</div>&lt;!&ndash; /.end &ndash;&gt;-->
+        <!--<div google-chart chart="chart1" ng-hide="loadingChart1" style="padding-left: 78px;"></div>-->
+    <!--</div>-->
+    <!--
+    <div class="col-md-4">
+        <select class="form-control rabo-center rabo-input-220" ng-model="selectedOption2"
+                ng-change="optionSelected2()"
+                ng-options="indexOption as indexOption.name for indexOption in indexOptions"></select>
+        <div class="row  rabo-mg-bottom-20" ng-hide="!loadingChart2">
+            <div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray text-center">{{loadingMessage}}</div>
+        </div>
+        <div google-chart chart="chart2" ng-hide="loadingChart2"></div>
+    </div>-->
+    <div class="col-md-12">
+        <!--<div style="padding-left: 155px;">-->
+            <!--<select class="form-control rabo-center rabo-input-220" ng-model="selectedOption3"-->
+                    <!--ng-change="optionSelected3()"-->
+                    <!--ng-options="namespaceOption as namespaceOption.name for namespaceOption in namespaceOptions"></select>-->
+        <!--</div>-->
+        <!--<div class="row  rabo-mg-bottom-20" ng-hide="!loadingChart3">&lt;!&ndash; Info when action download started &ndash;&gt;-->
+            <!--<div class="col-md-12 rabo-mg-bottom-10 rabo-color-gray">{{loadingMessage}}</div>-->
+        <!--</div>&lt;!&ndash; /.end &ndash;&gt;-->
+            <div ng-repeat="dboardData in dashboardData.data">
+                <div ><hr></div>
+                <div data-chart-generator ng-if="dashboardData" chart-title="dboardData.titleName" dashboard-Data="dboardData" start-date="startDate" end-date="endDate"></div>
+                <a style="cursor:pointer; float: left; margin-bottom: 5px" ng-show="hasLessDetails" ng-click="lessDetails()">Less Details</a>
+                <a style="cursor:pointer; float: right" ng-show="hasMoreDetails" ng-click="moreDetails(dboardData.name)">More Details</a>
+
+            </div>
+
+        <!--<div google-chart chart="failureChart" ng-hide="loadingChart3" style="width: 100%; padding-top: 60px;"></div>-->
+        <!--<div google-chart chart="successChart" ng-hide="loadingChart3" style="width: 100%; padding-top: 60px;"></div>-->
+        <!--<div google-chart chart="totalChart" ng-hide="loadingChart3" style="width: 100%; padding-top: 60px;"></div>-->
+    </div>
+</div>
+<div data-contextual-help title="'Indexing Dashboard Help'" content="'resources/help/indexDashboardHelp.html'"></div>
+
+
+
+

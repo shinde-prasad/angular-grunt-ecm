@@ -1,0 +1,173 @@
+<!-- INFO SECTION -->
+<a class="btn rabo-btn rabo-btn-blue" href="javascript:history.go(-1)">Back</a>
+<h1>Custodian Details</h1>
+
+<div class="rabo-mg-bottom-20">
+  <div class="row rabo-mg-bottom-20">
+  <form name="userDetailsForm" class="rabo-margin-top-20 rabo-text-left">      
+    <div class="col-md-4">
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Employee Id:</label>
+        <span ng-if="readMode">{{userInfo["employeeId"]}}</span>
+        <input required type="text" name="employeeId" class="form-control rabo-input-220" ng-model="userInfo['employeeId']" ng-if="editMode"/>
+      </p>
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Location:</label>
+        <span ng-if="readMode">{{userInfo["location"]}}</span>
+        <input type="text" name="location" class="form-control rabo-input-220" ng-model="userInfo['location']" ng-if="editMode"/>
+      </p>
+
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-if="readMode">Name:</label>  <span ng-if="readMode">{{userInfo["firstName"]}} {{userInfo["lastName"]}}</span>
+        <label class="control-label text-left rabo-clear-pd-left col-sm-4" ng-if="editMode">First:</label>
+        <input required type="text" name="firstName" class="form-control rabo-input-220" ng-model="userInfo['firstName']" ng-if="editMode"/>
+      </p>
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left col-sm-4" ng-if="editMode">Last:</label>
+        <input required type="text" name="lastName" class="form-control rabo-input-220" ng-model="userInfo['lastName']" ng-if="editMode"/>
+      </p>
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Email:</label>
+        <span ng-if="readMode">{{userInfo["email"]}}</span>
+        <input required type="text" name="email" class="form-control rabo-input-220" ng-model="userInfo['email']" ng-if="editMode"/>
+      </p>
+
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Department:</label>
+        <span ng-if="readMode">{{userInfo["department"]}}</span>
+        <input type="text" name="department" class="form-control rabo-input-220" ng-model="userInfo['department']" ng-if="editMode"/>
+      </p>
+
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Country:</label>
+        <span ng-if="readMode">{{userInfo["country"]}}</span>
+        <input type="text" name="country" class="form-control rabo-input-220" ng-model="userInfo['country']" ng-if="editMode"/>
+      </p>
+
+      <p>
+        <label class="control-label text-left rabo-clear-pd-left" ng-class="{'col-sm-4': readMode === false}">Function Title:</label>
+        <span ng-if="readMode">{{userInfo["job"]}}</span>
+        <input type="text" name="job" class="form-control rabo-input-220" ng-model="userInfo['job']" ng-if="editMode"/>
+      </p>
+
+    </div>
+    <div class="col-md-4">
+      <p><strong>Created date:</strong> {{userInfo["timestamp"]}}</p>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10"  data-toggle="modal" data-target="#deleteDetailPopup">Delete</button>
+      <button type="button" class="btn pull-right rabo-btn" ng-if="readMode" ng-click="editToggle()">Edit</button>
+      <button type="submit" class="btn pull-right rabo-btn" ng-if="editMode" ng-click="userDetailsForm.$valid && saveName()">Save</button>
+    </div>
+  </form>
+  </div>
+</div><!-- /.info section -->
+
+<div ><hr></div>
+<h3>Content Sources</h3>
+
+<!-- TOP ACTION BUTTONS -->
+<div class="row">
+  <div class="col-md-6">
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+    <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Remove</button>
+    <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addContentSourcePopup">Add</button>
+  </div>
+</div><!-- /.top action buttons -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- TABLE GENERATOR - See directive tableGenerator.js for more info -->
+<div class="row">
+  <div data-table-generator ng-if="tableData"></div>
+</div><!-- /.table generator -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<!-- BOTTOM ACTION BUTTONS -->
+<div class="row">
+  <div class="col-md-6">
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+    <!--<button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>-->
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareModal()">Remove</button>
+    <button type="button" class="btn pull-right rabo-btn" data-toggle="modal" data-target="#addContentSourcePopup">Add</button>
+  </div>
+</div><!-- /.bottom actions buttons -->
+
+<div ><hr></div>
+<h3 ng-if="isEmpty(participantGroupHistory)">Group membership history</h3>
+
+<div class="row  rabo-mg-bottom-20">
+  <!--div ng-if="filterGroupFlag.filterGroup == 1"-->
+  <div>
+    <!-- TABLE GENERATOR - See directive tableGenerator.js for more info -->
+    <div class="col-md-12 rabo-margin-top-20" ng-repeat-start="(key, value) in participantGroupHistory">
+      <label class="control-label text-left rabo-clear-pd-left ng-scope" ng-if="readMode">Group: </label> {{key}}
+    </div>
+    <div class="col-md-offset-1" ng-repeat-end="">
+      <div style="margin-top:20px" ng-repeat="info in value">
+        <div>
+          <div class="col-md-3">
+            <label class="control-label text-left rabo-clear-pd-left ng-scope" ng-if="readMode">Start Date: </label>{{info.startDate}}
+          </div>
+          <div class="col-md-3">
+            <label class="control-label text-left rabo-clear-pd-left ng-scope" ng-if="readMode">Reason: </label>{{info.addReason}}
+          </div>
+          <div class="col-md-3">
+            <label class="control-label text-left rabo-clear-pd-left ng-scope" ng-if="readMode">End Date: </label><span>{{info.endDate == null ? 'N/A' : info.endDate}}</span>
+
+          </div>
+          <div  class="col-md-3">
+            <label  class="control-label text-left rabo-clear-pd-left ng-scope" ng-if="readMode">Reason: </label> <span>{{info.removeReason == null ? 'N/A' :info.removeReason}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div data-delete-modal></div>
+<div data-delete-detail-modal></div>
+<div data-add-content-source-modal></div><!-- /.modal -->

@@ -1,0 +1,78 @@
+<header-search></header-search>
+
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" ng-click="showPreview()" class="btn pull-right rabo-btn rabo-btn-blue rabo-mg-bottom-30 rabo-mg-left-20" >Show preview</button>
+        <button type="button" ng-click="save()" class="btn pull-right rabo-btn rabo-btn-blue rabo-mg-bottom-30 rabo-mg-left-20" >Save</button> 
+        <label class="pull-right rabo-mg-bottom-30 rabo-mg-left-20"><input type="checkbox" ng-model="landingPageFields.published[modelDS.get()]"> Published</label>
+    </div>
+</div>
+
+<div class="row rabo-mg-top-30">
+    <summernote config="landingPageFields.content.config.settings" ng-model="landingPageFields.content[modelDS.get()]"></summernote>         
+</div>
+
+<!-- TOP ACTION BUTTONS -->
+<div class="row rabo-mg-top-30">
+  <div class="col-md-6">
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="selectPage()">Select Page</button>
+    <button type="button" class="btn pull-left rabo-btn rabo-btn-blue rabo-mg-left-10" ng-click="selectAll()" ng-class="{active: (selectAllEnabled)}">Select All</button>
+  </div>
+  <div class="col-md-6">
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#deletePopup" ng-disabled="btnDisabled" ng-click="prepareDeleteModal()">Delete</button>
+    <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" ng-click="createNewMessage()">New</button>
+  </div>
+</div><!-- /.top action buttons -->
+
+<!-- PAGINATION -->
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-4">
+        <ul uib-pagination ng-show="itemsPerPage<footerData.getResultInfo().resultsCount" total-items="footerData.getResultInfo().resultsCount" ng-model="currentPage" max-size="maxSize" class="pagination rabo-color-blue rabo-clear-border rabo-clear-bg" boundary-links="true" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo" items-per-page="itemsPerPage"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul class=" navbar-right pagination">
+            <li>
+                <div>
+                    <strong style="color:#333">Page Size:</strong>&nbsp;
+                    <select style="display: inline; width:70px" id="dailyHour" ng-model='itemsPerPage' ng-change="updatePageSize()" class="form-control" ng-options="item for item in itemsPerPageOptions">
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div><!-- /.pagination -->
+
+<div class="row rabo-mg-top-30">
+    <div class="row">
+        <div data-table-generator ng-if="tableData"></div>
+    </div>
+</div>
+
+<div data-backdrop="static" data-keyboard="false" class="modal fade" id="messageModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <form name="myForm" class="form-horizontal rabo-text-left" autocomplete="off">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{dialogData.title}}</h4>
+        <error-message data-em-messages="messageService.messages" data-em-groups="messageDialog"></error-message>        
+      </div>
+      <div class="modal-body col-md-12">
+           <div ng-repeat="field in dialogData.fields" class="col-md-12" data-channel-field="field" data-chf-label-size="3"></div> 
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="myForm.$valid && saveMessage()">OK</button>
+        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-10" data-dismiss="modal">Cancel</button>
+      </div>
+        </form>            
+    </div>
+  </div>
+</div>
+
+<!--DELETE MODAL -->
+<div data-delete-modal></div>
+
+
+

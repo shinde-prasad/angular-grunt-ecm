@@ -1,0 +1,26 @@
+<div class="modal" id="saveQueryPopup" ng-controller="savedSearchCtrl" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New Saved Search</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Enter the new saved search information</strong></p>
+                <form name="modalForm" class="form-horizontal rabo-text-left">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-left">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" required ng-model="currentName"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn rabo-btn rabo-btn-blue" data-toggle="{{modalForm.$valid ? 'modal' : ''}}" data-target="#saveQueryPopup" ng-click="modalForm.$valid && save()">OK</button>
+                        <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal add action -->

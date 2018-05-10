@@ -1,0 +1,35 @@
+<div class="modal fade" id="addNewPopup" tabindex="-1">
+    <!--
+        ADD NEW MODAL
+        For more info read the documentation in the scripts/directives/addNewModal.js file
+        -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{addNewModalTitle}}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="rabo-mg-bottom-20"><strong>{{addNewMessage}}</strong></p>
+                <form name="modalForm" class="form-horizontal rabo-text-left">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label ">Name:</label>
+                        <div class="col-sm-9">
+                            <input name="itemName" type="text" class="form-control rabo-input-220" ng-model="newName" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Description:</label>
+                        <div class="col-sm-9">
+                            <input name="itemDescription" type="text" class="form-control rabo-input-220" ng-model="newDescription" required/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalForm.$valid ? 'modal' : ''}}" ng-click="modalForm.$valid && save()">OK</button>
+                        <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

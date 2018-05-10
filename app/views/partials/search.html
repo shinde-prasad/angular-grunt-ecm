@@ -1,0 +1,130 @@
+<header-search></header-search>
+
+<nav class="navbar rabo-globalSearch-contentsources">
+    <ul id="main-tabs" class="nav nav-tabs rabo-clear-border rabo-clear-bg rabo-color-blue rabo-color-orange-active">
+        <li role="presentation" ng-repeat="channel in channelSS.getChannelsAsArray() | filter: {config: {hasTab:true}} " ng-class="{'active':channel.isActiveTab()}"><a ng-click="channelSS.setActiveTab(channel, true)" href="">{{channel.getCaption()}}&#160;&#160;<span class="glyphicon {{channel.getGlyph()}}"></span></a></li>
+    </ul>
+</nav>
+
+<form class="form-horizontal rabo-text-left" name="myForm" autocomplete="off">
+    <div class="row rabo-mg-bottom-30">
+        <div class="col-md-4" data-channel-field="channels.global.fields.startdate" data-chf-label-size="5"></div>  
+        <div class="col-md-4" data-channel-field="channels.global.fields.enddate" data-chf-label-size="5"></div>          
+        <div class="col-md-4" data-channel-field="channels.global.fields.flaggingRule" data-chf-label-size="5"></div>
+        <div class="col-md-4" data-channel-field="channels.global.fields.participants" data-chf-label-size="5" data-chf-typeahead></div>  
+        <div class="col-md-4" data-channel-field="channels.global.fields.country" data-chf-label-size="5"></div>
+        <div class="col-md-4" data-channel-field="channels.global.fields.sortBy" data-chf-label-size="5"></div>                  
+        <div class="col-md-4" data-channel-field="channels.global.fields.keywords" data-chf-label-size="5"></div>
+        <div class="col-md-4" data-channel-field="channels.global.fields.content" data-chf-label-size="5"></div>        
+        <div class="col-md-4" data-channel-field="channels.global.fields.resultsPerPage" data-chf-label-size="5"></div>
+    </div>
+
+    <channel-tree cht-active="{{channelSS.getActiveTab().id}}"></channel-tree>
+
+    <h3 class="rabo-mg-bottom-20"><button ng-show="searchRS.advancedSearch && channels.global.isSubchannelChecked() && channels.global.isActiveTab()" type="button" class="btn rabo-btn rabo-btn-blue" ng-click="searchRS.advancedSearch=false">Hide advanced fields</button></h3>
+    <div class="col-md-12 row rabo-mg-bottom-40" ng-show="(searchRS.advancedSearch && channels.global.isSubchannelChecked()) || !channels.global.isActiveTab()">
+        <div class="col-md-12">
+            <div ng-if="channels.email.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.email.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.email.fields.from"></div>
+                    <div class="col-md-4" data-channel-field="channels.email.fields.to"></div>
+                    <div class="col-md-4" data-channel-field="channels.email.fields.subject"></div>                    
+                </div>
+            </div>
+            <div ng-if="channels.icechatChat.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.icechatChat.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.icechatChat.fields.from"></div>
+                    <div class="col-md-4" data-channel-field="channels.icechatChat.fields.to"></div> 
+                    <div class="col-md-4" data-channel-field="channels.icechatChat.fields.subject"></div>                    
+                </div>
+            </div>     
+            <div ng-if="channels.skypeVoice.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.skypeVoice.getCaption()}}</h4>
+                    </div>       
+                    <div class="col-md-4" data-channel-field="channels.skypeVoice.fields.from"></div>
+                    <div class="col-md-4" data-channel-field="channels.skypeVoice.fields.duration"></div>                    
+                    <div class="clearfix"></div>
+                    <div class="col-md-4" data-channel-field="channels.skypeVoice.fields.to"></div>                    
+                    <div class="col-md-4" data-channel-field="channels.skypeVoice.fields.endduration"></div>                    
+                </div>
+            </div>              
+            <div ng-if="channels.voice.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.voice.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.voice.fields.duration"></div>   
+                    <div class="col-md-4" data-channel-field="channels.voice.fields.endduration"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceDesktopPhone.fields.calltype"></div>                                        
+                    <div class="clearfix"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceMobile.fields.phonenumber"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceDesktopPhone.fields.phoneid"></div>
+
+                    <!--
+                    <div class="col-md-4" data-channel-field="channels.voiceDesktopPhone.fields.callingpartyid"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceDesktopPhone.fields.calledpartyid"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceDealerboard.fields.participants"></div>    
+                    -->
+                    <div class="clearfix"></div>
+                    <div class="col-md-4" data-channel-field="channels.voiceDealerboard.fields.phoneid"></div>                       
+                    <div class="col-md-4" data-channel-field="channels.voiceDealerboard.fields.traderId"></div>
+                </div>
+            </div>
+            <div ng-if="channels.bloomberg.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.bloomberg.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.bloombergMessaging.fields.from"></div>
+                    <div class="col-md-4" data-channel-field="channels.bloombergMessaging.fields.to"></div>
+                    <div class="col-md-4" data-channel-field="channels.bloombergMessaging.fields.subject"></div>
+                </div>
+            </div>
+            <div ng-if="channels.reuters.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.reuters.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.reutersRcd.fields.from"></div>
+                    <div class="col-md-4" data-channel-field="channels.reutersRcd.fields.to"></div>
+                    <div class="col-md-4" data-channel-field="channels.reutersRcd.fields.tui"></div>                    
+                </div>
+            </div>
+            <div ng-if="channels.algomi.isSubchannelChecked()" class="row">
+                <div class="col-md-12 panel panel-default">
+                    <div class="col-sm-12 rabo-mg-bottom-10">
+                        <h4 ng-if="channels.global.isActiveTab()">{{channels.algomi.getCaption()}}</h4>
+                    </div>
+                    <div class="col-md-4" data-channel-field="channels.algomiSynchronicity.fields.isincode"></div>
+                    <div class="col-md-4" data-channel-field="channels.algomiSynchronicity.fields.clientdescription"></div>
+                    <div class="col-md-4" data-channel-field="channels.algomiSynchronicity.fields.orderid"></div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button ng-if="channels.global.isSubchannelChecked() && !searchRS.advancedSearch && channels.global.isActiveTab()" type="button" class="btn pull-left rabo-btn rabo-btn-blue" ng-click="searchRS.advancedSearch = true">Show advanced fields</button>
+            <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" data-toggle="modal" data-target="#saveQueryPopup">Save Search</button>
+            <button type="button" class="btn pull-right rabo-btn rabo-mg-left-10" ng-click="reset(); ">Reset</button>
+            <button type="button" ng-disabled="!channels.global.isSubchannelChecked()" class="btn pull-right rabo-btn rabo-mg-left-100" ng-click="validate() && submit()">Search</button>
+            <div class="pull-right rabo-result-count-box">
+                <p class="rabo-color-orange"><strong>{{searchRS.getCount()}} results</strong></p>
+            </div>
+            <button type="button" ng-disabled="!channels.global.isSubchannelChecked()" class="btn pull-right rabo-btn" ng-click="validate() && searchRS.getResults()">Calculate</button>
+        </div>
+    </div>
+</form>
+
+<div data-save-query-modal ng-if="!savedSS.isActive()"></div>
+<div data-update-query-modal ng-if="savedSS.isActive()"></div>
+<div data-contextual-help data-content="'resources/help/' + channelSS.getActiveTab().id + 'Help.html'"></div>

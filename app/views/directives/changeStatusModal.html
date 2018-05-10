@@ -1,0 +1,34 @@
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Change status</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>Choose the new status of the following selected documents:</strong><br>
+                    {{subjectsToUpdate}}
+                </p>
+                <form name="modalStatusForm" class="form-horizontal rabo-text-left">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-left">Status:</label>
+                        <div class="col-sm-6">
+                            <select name="statusOption" required class="form-control rabo-input-220" ng-model="selectedStatus">
+                                <option style="display:none" value="">-- select a status --</option>
+                                <option value="0">None</option>
+                                <option value="1">Reviewed</option>
+                                <option value="2">Escalated</option>
+                                <option value="3">Pending Review</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn rabo-btn rabo-btn-blue" data-dismiss="{{modalStatusForm.$valid ? 'modal' : ''}}" ng-click="modalStatusForm.$valid && changeStatus()">OK</button>
+                        <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

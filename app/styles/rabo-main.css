@@ -1,0 +1,703 @@
+/*** CSS by pedro ***/
+
+/*** ELEMENTS ***/
+body {
+  font-family: "Myriad Regular","Tahoma","Lucida Sans Unicode","Lucida Grande",sans-serif;
+}
+
+hr {
+    border-top: 1px solid #ed8b00;
+}
+
+h1, h2, h3, h4 {
+  margin:5px 0;
+  color: #ed8b00;
+  font-family: "Myriad Light","Tahoma","Lucida Sans Unicode","Lucida Grande",sans-serif;
+  font-style: normal;
+  font-weight: 300;
+}
+
+input[type="checkbox"] {
+  margin:0;
+}
+
+label {
+  margin:0;
+}
+
+
+.rabo-center {
+    display:initial !important;
+}
+
+/** Loading icon and bar **/
+#loading-bar-spinner .spinner-icon {
+    border-top-color:  #ed8b00;
+    border-left-color: #ed8b00;
+}
+#loading-bar .bar {
+    background: #ed8b00;
+}
+/* Fancy blur effect */
+#loading-bar .peg {
+    -moz-box-shadow: #ed8b00 1px 0 6px 1px;
+    -ms-box-shadow: #ed8b00 1px 0 6px 1px;
+    -webkit-box-shadow: #ed8b00 1px 0 6px 1px;
+    box-shadow: #ed8b00 1px 0 6px 1px;
+}
+
+/*** CLEANERS ***/
+.rabo-clear-all {
+  height:0;
+  line-height: 0;
+  border:0;
+  clear:both;
+}
+
+.rabo-clear-both {
+  clear:both;
+}
+
+.rabo-clear-right {
+  clear:right;
+}
+
+.rabo-clear-mg-left {
+  margin-left:0;
+}
+
+.rabo-clear-mg{
+  margin: 0 !important;
+}
+
+.rabo-clear-pd{
+  padding: 0 !important;
+}
+
+.rabo-clear-pd-left,
+.rabo-clear-pd-left > a {
+  padding-left:0 !important;
+}
+
+.rabo-clear-border,
+.rabo-clear-border a {
+  border:none !important;
+}
+
+.rabo-clear-bg,
+.rabo-clear-bg a:hover,
+.rabo-clear-bg > .active > a,
+.rabo-clear-bg > .active > a:hover,
+.rabo-clear-bg > .active > a:focus {
+  background:none !important;
+}
+
+
+/*** GENERAL - you can user for any elements ***/
+.rabo-no-background-color{
+  background-color: transparent !important;
+}
+
+.rabo-padding-left-0{
+  padding-left:0px;
+}
+
+.rabo-padding-right-0{
+  padding-right:0px;
+}
+
+.rabo-padding-left-5 {
+  padding-left:5px;
+}
+
+.rabo-padding-left-10 {
+  padding-left:10px;
+}
+
+.rabo-margin-top-5{
+  margin-top: 5px;
+}
+
+.rabo-margin-top-10{
+  margin-top: 10px;
+}
+
+.rabo-margin-top-20{
+  margin-top: 20px;
+}
+
+.rabo-mg-left-10 {
+  margin-left:10px;
+}
+
+.rabo-mg-left-15 {
+  margin-left:15px;
+}
+
+.rabo-mg-left-20 {
+  margin-left:20px;
+}
+
+
+.rabo-mg-left-50 {
+  margin-left:50px;
+}
+
+.rabo-mg-left-5 {
+    margin-left:5px;
+}
+
+.rabo-mg-left-100 {
+  margin-left:100px;
+}
+
+.rabo-mg-bottom-10 {
+    margin-bottom:10px;
+}
+.rabo-mg-bottom-15 {
+  margin-bottom:15px;
+}
+
+
+.rabo-mg-bottom-20 {
+    margin-bottom:20px;
+}
+.rabo-mg-bottom-30 {
+  margin-bottom:30px;
+}
+
+
+.rabo-mg-bottom-40 {
+     margin-bottom:40px;
+ }
+
+.rabo-mg-top-0 {
+  margin-top:0px !important;
+}
+.rabo-mg-top-100 {
+    margin-top:100px;
+}
+
+/* border */
+.rabo-border-top-silver {
+  border-top: 1px solid rgba(0, 0, 153, 0.06);
+}
+
+.rabo-border-silver {
+    border: 1px solid rgba(0, 0, 153, 0.06);
+}
+
+.rabo-channel {
+    padding: 4px;
+}
+
+.rabo-subchannel {
+    border-right: 1px solid rgba(0, 0, 153, 0.06);
+    padding: 4px;    
+    padding-left: 20px;
+}
+
+.rabo-allchannel {
+    padding: 10px;
+}
+
+.rabo-table {
+    padding: 0px;
+}
+
+/* colors */
+.rabo-color-gray,
+.rabo-color-gray a {
+  color: #939d9e !important;
+}
+
+.rabo-color-silver,
+.rabo-color-silver a {
+  color: #999999 !important;
+}
+
+.rabo-color-blue,
+.rabo-color-blue a {
+  color: #000099 !important;
+}
+
+.active > a[class="ng-scope ng-binding"] {
+    color:#ffffff !important;
+}
+
+.mark,mark{
+    padding:.2em;
+    background-color:yellow
+}
+
+.rabo-color-orange,
+.rabo-color-orange ul > li > a:hover,
+.active > a {
+  color:#ff6600 !important;
+}
+
+/* font size */
+.rabo-font-13 {
+  font-size:13px;
+}
+
+/* text position */
+.rabo-text-left,
+.rabo-text-left label {
+  text-align:left !important;
+}
+
+.rabo-text-top,
+.rabo-text-top th {
+  vertical-align:top !important;
+}
+
+/* forms */
+.rabo-input-140,
+.rabo-input-130.form-control:not([class*="col-"]) {
+  width:140px !important;
+}
+
+/* forms */
+.rabo-input-220,
+.rabo-input-220.form-control:not([class*="col-"]) {
+  width:220px !important;
+}
+
+/* forms */
+.rabo-input-80,
+.rabo-input-80.form-control:not([class*="col-"]) {
+  width:80px !important;
+}
+
+
+.rabo-input-300,
+.rabo-input-300.form-control:not([class*="col-"]) {
+  width:300px !important;
+}
+
+
+/*** BUTTONS - customize default boostrap buttons ***/
+.rabo-btn {
+  background: none repeat scroll 0 0 #ed8b00;
+  color: #fff;
+  border-radius: 4px / 15px;
+  -webkit-transition: background-color 1s;
+  -moz-transition:    background-color 1s;
+  -ms-transition:     background-color 1s;
+  -o-transition:      background-color 1s;
+  transition:         background-color 1s;
+  padding: 0px 30px;
+  line-height: 30px;
+}
+
+.rabo-btn:hover,
+.rabo-btn:focus {
+  color:#fff;
+  background-color:#ff8c40;
+}
+
+.rabo-btn-blue {
+  background-color: #000099;
+}
+
+.rabo-btn-blue:hover,
+.rabo-btn-blue:focus {
+  background-color: #4d4db7;
+}
+
+.rabo-btn-blue.active{
+    box-shadow: inset 0 0 0 1px #27496d,inset 0 5px 30px #193047;
+}
+
+.rabo-btn-gray {
+  background-color: #939d9e;
+}
+
+.rabo-btn-gray:hover,
+.rabo-btn-gray:focus {
+  background-color: #AFB4B5;
+}
+
+
+/*** HEADER ***/
+.rabo-logo img {
+  /*max-width:65px;
+  max-height:78px;*/
+}
+
+/*** TOP NAVBAR ***/
+
+
+.rabo-globalSearch-contentsources{
+  margin-left: -15px;
+}
+
+.rabo-main-nav{
+ margin-bottom: 0;
+}
+
+.rabo-navbar-top-1 {
+  margin: 30px 0 10px 0;
+}
+
+.rabo-navbar-top-1 li {
+  border-right: 1px solid rgba(0, 0, 153, 0.06);
+}
+
+.rabo-navbar-top-1 li a {
+  padding:4px 20px 4px 20px;
+}
+
+ul.navbar-nav li.active a {
+    background-color: #ffffff !important;
+}
+
+ul.navbar-nav li div {
+    line-height: 34px;
+}
+
+ul.navbar-nav li input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    vertical-align: -2px;
+}
+
+/*** SECTION ***/
+.section-title{
+  float: left;
+}
+
+.rabo-help-link{
+  position: relative;
+  top: -15px;
+  cursor: pointer;
+}
+
+.rabo-pointer {
+    cursor: pointer;
+}
+
+.rabo_help{
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.rabo-offset-30 {
+    margin-top: 30px;
+}
+
+/*** REFINERS ***/
+.rabo-refiners h3 {
+  font-weight:bold;
+}
+
+.termTitle{
+  font-weight: bold;
+  font-size: medium;
+}
+
+.termsList{
+  display: inline-block;
+}
+
+.fieldname_title{
+  padding-left: 10px;
+}
+
+/*** FILTERS ****/
+.filter_category{
+  padding-left: 10px;
+}
+
+.filter{
+  padding-left: 5px;
+}
+
+
+/*** RESULTS ***/
+
+.rabo-sort-header{
+  color: inherit;
+}
+
+.rabo-result-count-box {
+    margin-top: 5px;
+    width:90px;
+    margin-left:20px;
+}
+
+.rabo-result-table .clickable-item {
+    cursor: pointer;
+}
+
+.rabo-result-table .deleted-item {
+    color: #aaa;
+}
+
+.rabo-filter-results{
+  display: inline;
+}
+
+/*** FOOTER ***/
+.rabo-footer {
+  margin-top:30px;
+}
+
+/*** BOOTSTRAP MODAL ***/
+.bigModal{
+    /*width:900px;
+    margin-left:-150px;*/
+    width:1080px;
+}
+ 
+
+/*** BOOTSTRAP MODAL ***/
+.modal600{
+    width:600px;
+}
+
+/*** BOOTSTRAP MODAL ***/
+.modal800{
+    width:800px;
+}
+
+.rabo-modal-title {
+    margin-bottom: 40px;
+    font-size: large;
+}
+
+/*** DEV SECTION -> for testing ***/
+
+
+/*Import file button*/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+
+.inner-alert-div{
+    float: left;
+}
+
+#results-page-alert-message{
+    padding-left: 18px;
+    /*padding-bottom: 5px;*/
+}
+
+.rabo-selected{
+    color:#ff8c40;
+}
+
+.rabo-channel-field {
+    margin-left: 0px !important;
+}
+
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+    display: none;
+}
+
+input[typeahead-editable=false]::-ms-clear{
+    display: none;
+}
+
+.rabo-accepted-input input, .rabo-accepted-input select,  .rabo-accepted-input button {
+    border-color: #777;
+}
+
+.rabo-ignored-input label {
+    color: #999;
+}
+
+
+
+
+/*Calendar*/
+.ADMdtp-container .masterInput > .removeIcon{
+  display: none;
+}
+
+
+.ADMdtp-container ng-transclude{
+  display: table !important;
+  width: 100%;
+}
+
+.rabo-dateinput{
+  width: 100%;
+  z-index: 600;
+}
+
+.rabo-dateinputButton{
+  background-color: #eeeeee;
+}
+
+/* Multiple Dropdown*/
+
+.globalFilter .dropdown-multiselect{
+  width: 100%;
+}
+
+.globalFilter .dropdown-multiselect > button{
+  border-radius: 0px;
+  width: 100%;
+  text-align: left;
+}
+
+.globalFilter .dropdown-multiselect > button > .caret{
+  float: right;
+  position: relative;
+  top: 10px;
+}
+
+
+/*Download dialog*/
+.download-select-directory{
+  display: inline-block;
+}
+
+.download-dialog-spin{
+  margin-left: 10px;
+  color: #ed8b00;
+}
+
+
+/* Exports */
+.export-path {
+  max-width: 245px;
+  word-wrap: break-word;
+}
+
+.hyphenate {
+  /* Careful, this breaks the word wherever it is without a hyphen */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  /* Adds a hyphen where the word breaks */
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+/**********************************************************/
+/**********************************************************/
+/********************Glyphicon spin ***********************/
+/**********************************************************/
+/**********************************************************/
+.glyphicon-spin {
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.font-weight-normal{
+  font-weight: normal !important;
+}
+
+.selector-button-text {
+    text-align: right;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+@media (min-width: 1200px) {
+    html.version-1-6 .container {
+        max-width: 2000px;
+        width: 100%;
+        padding-left: 10%;
+        padding-right: 10%;        
+    }
+}
+
+html.version-1-6.navbar-header #app-version {
+    margin-left: 100px;
+    margin-top: 50px;
+    width: 100px;
+}
+
+html.version-1-6 h1,
+html.version-1-6 h2,
+html.version-1-6 h3,
+html.version-1-6 h4 {
+  margin:5px 0;
+  color: #1e8449;
+  font-family: "Myriad Light","Tahoma","Lucida Sans Unicode","Lucida Grande",sans-serif;
+  font-style: normal;
+  font-weight: 300;
+}
+
+/*** BUTTONS - customize default boostrap buttons ***/
+html.version-1-6 .rabo-btn {
+  background: none repeat scroll 0 0 #1e8449;
+}
+
+
+.animate-if.ng-enter, .animate-if.ng-leave {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.animate-if.ng-enter,
+.animate-if.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.animate-if.ng-leave,
+.animate-if.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.no-gutter > [class*='col-'] {
+    padding-left:0 !important;
+    margin-left: 0 !important;
+}
+
+

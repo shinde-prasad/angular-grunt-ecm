@@ -1,0 +1,25 @@
+<!-- THIS MODAL HAS ERRORS WITH THE SCOPE IF IS MOVED TO A DIRECTIVE -->
+<div class="modal fade" id="participantNotesModal2" ng-controller="groupDetailsCtrl" tabindex="-1"><!-- MODAL - add flag item -->
+  <div class="modal-dialog">
+    <div class="modal-content bigModal">
+        <form name="participantNotesModalForm2" class="form-horizontal rabo-text-left">        
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Notes</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Note:</label>
+            <div class="col-sm-9">
+              <textarea name="noteText" class="form-control rabo-input" rows="3" ng-model="noteText"></textarea>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn rabo-btn rabo-btn-blue" ng-click="participantNotesModalForm2.$valid && addNote()">Add Note</button>
+        <button type="button" class="btn rabo-btn rabo-btn-blue rabo-mg-left-10" data-dismiss="modal">Close</button>
+      </div>
+        </form>            
+    </div>
+  </div>
+</div>

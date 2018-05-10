@@ -1,0 +1,10 @@
+<div ng-repeat="m in filterMessages()" class="animate-if rabo-margin-top-20 alert {{m.getLevel().class}}" role="alert">
+    <span class="close" aria-label="close" ng-click="m.close()">&times;</span>
+    <div ng-if="$parent.brief" ng-bind="m.getShort(true)"></div>
+    <div ng-if="!$parent.brief">
+        <div ng-bind="m.getLong(true)"></div>    
+        <div ng-if="m.getDetails()" class="text-muted" ng-click="showDetails = !showDetails">Toggle details &#9660; 
+            <pre ng-if="showDetails" ng-bind-html="m.getDetails()"></pre> 
+        </div>    
+    </div>
+</div>

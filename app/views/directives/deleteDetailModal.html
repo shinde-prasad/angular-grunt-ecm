@@ -1,0 +1,19 @@
+<div class="modal fade" id="deleteDetailPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{deleteDetailModalTitle}}</h4>
+            </div>
+            <div class="modal-body">
+                <p class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>&#160;&#160;Do you really want to delete the  <strong>{{deleteDetailName}}</strong> {{deleteDetailMessage}}?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="loginForm" method="post" class="form-horizontal">
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal" ng-click="pageDelete()">OK</button>
+                    <button type="button" class="btn rabo-btn rabo-btn-blue" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
